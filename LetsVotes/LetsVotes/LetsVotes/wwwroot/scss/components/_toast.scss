@@ -1,4 +1,5 @@
 ﻿@use "sass:color";
+@import "../../lib/bootstrap/scss/functions";
 @import "../variables";
 
 .toastr {
@@ -52,10 +53,11 @@
 }
 
 .toast-success {
-  color: color-contrast($success);
+  $toast-success: color.adjust($success, $lightness: 10%);
+  color: $light;
   filter: contrast(1.6);
   text-shadow: 0 0 1px #{$shadow-color};
-  background-color: #{$success};
+  background-color: #{$toast-success};
   transition: all 1s ease-in-out;
 }
 

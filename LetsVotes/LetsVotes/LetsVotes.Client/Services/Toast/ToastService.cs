@@ -1,8 +1,7 @@
 ﻿using System.Collections.Concurrent;
-using Fruition.Client.Services.Toast;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fruition.Client.Services.Toast;
+namespace LetsVotes.Client.Services.Toast;
 public class ToastService() : IToastService
 {
     ConcurrentQueue<ToastEventArgs> _queue = new();

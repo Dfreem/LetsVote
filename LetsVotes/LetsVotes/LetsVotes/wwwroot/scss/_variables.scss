@@ -1,10 +1,13 @@
-﻿// Define color variables
+﻿@use "sass:color";
+
+// Define color variables
 $primary: #002868; // Navy Blue - Use for primary elements like buttons and headers
 $secondary: #FFB6C1; // Pastel Pink - Use for secondary buttons or accents
 $tertiary: #FFC300; // same as warning - Use for tertiary buttons or accents
 $info: #FFFFFF; // Crisp White - Use for backgrounds or info sections
 $danger: #BF0A30; // Bold Red - Use for error messages or danger alerts
 $warning: #FFC300; // Warm Gold - Use for warning messages or highlights
-
+$success: #008000;
 $shadow-color: #88888888;
 
+@import "../lib/bootstrap/scss/variables";
