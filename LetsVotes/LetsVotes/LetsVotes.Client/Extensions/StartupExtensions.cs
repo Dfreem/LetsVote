@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.Design;
-
-using Fruition.Client.Services.Toast;
+using LetsVotes.Client.Services.Toast;
 
 namespace LetsVotes.Client.Extensions;
 

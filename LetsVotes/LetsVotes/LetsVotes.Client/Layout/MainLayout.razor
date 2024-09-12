@@ -1,45 +1,43 @@
-﻿@using Fruition.Client.Services.Toast
+﻿@using LetsVotes.Client.Components.Toast
+@using LetsVotes.Client.Services.Toast
 @inherits LayoutComponentBase
 @inject IToastService _toast
 
-<Toast></Toast>
+<Toast Position="ToastPosition.Top | ToastPosition.Right"></Toast>
+<button @onclick='TestToast' class="btn btn-primary position-absolute top-50 left-50">Test</button>
 <div class="main-layout">
     <header class="bg-primary text-white p-4 text-center">
         <h1>Let's Vote Game</h1>
     </header>
-
-    <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
-        <NavMenu />
-    </nav>
-
-    <div class="page container-fluid">
+    <div class="page">
         <main>
-            <article class="content p-4">
-                @Body
-            </article>
+
+            <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+                <NavMenu />
+            </nav>
+
+            <div class="page container-fluid">
+                <article class="content p-4">
+                    @Body
+                </article>
+            </div>
+
+            <footer class="bg-dark text-white text-center p-2">
+                <p>&copy; 2024 Let's Vote Game</p>
+            </footer>
         </main>
     </div>
 
-    <footer class="bg-dark text-white text-center p-2">
-        <p>&copy; 2024 Let's Vote Game</p>
-    </footer>
-</div>
-
-<div id="blazor-error-ui" class="bg-danger text-white">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
+    <div id="blazor-error-ui" class="bg-danger text-white">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
 </div>
 
 @code {
-    protected override void OnAfterRender(bool firstRender)
+    public void TestToast()
     {
-        if (firstRender)
-        {
-            #if DEBUG
-            _toast.Success("Test Toast");
-            #endif
-        }
-        base.OnAfterRender(firstRender);
+        _toast.Success("Test Toast");
     }
 }

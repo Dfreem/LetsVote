@@ -211,7 +211,7 @@
   --bs-tertiary-rgb: 255, 195, 0;
   --bs-primary-text-emphasis: #00102a;
   --bs-secondary-text-emphasis: #66494d;
-  --bs-success-text-emphasis: #0a3622;
+  --bs-success-text-emphasis: #003300;
   --bs-info-text-emphasis: #666666;
   --bs-warning-text-emphasis: #664e00;
   --bs-danger-text-emphasis: #4c0413;
@@ -219,7 +219,7 @@
   --bs-dark-text-emphasis: #495057;
   --bs-primary-bg-subtle: #ccd4e1;
   --bs-secondary-bg-subtle: #fff0f3;
-  --bs-success-bg-subtle: #d1e7dd;
+  --bs-success-bg-subtle: #cce6cc;
   --bs-info-bg-subtle: white;
   --bs-warning-bg-subtle: #fff3cc;
   --bs-danger-bg-subtle: #f2ced6;
@@ -227,7 +227,7 @@
   --bs-dark-bg-subtle: #ced4da;
   --bs-primary-border-subtle: #99a9c3;
   --bs-secondary-border-subtle: #ffe2e6;
-  --bs-success-border-subtle: #a3cfbb;
+  --bs-success-border-subtle: #99cc99;
   --bs-info-border-subtle: white;
   --bs-warning-border-subtle: #ffe799;
   --bs-danger-border-subtle: #e59dac;
@@ -283,8 +283,8 @@
   --bs-focus-ring-width: 0.25rem;
   --bs-focus-ring-opacity: 0.25;
   --bs-focus-ring-color: rgba(0, 40, 104, 0.25);
-  --bs-form-valid-color: #198754;
-  --bs-form-valid-border-color: #198754;
+  --bs-form-valid-color: #008000;
+  --bs-form-valid-border-color: #008000;
   --bs-form-invalid-color: #BF0A30;
   --bs-form-invalid-border-color: #BF0A30;
 }
@@ -307,7 +307,7 @@
   --bs-tertiary-bg-rgb: 43, 48, 53;
   --bs-primary-text-emphasis: #667ea4;
   --bs-secondary-text-emphasis: #ffd3da;
-  --bs-success-text-emphasis: #75b798;
+  --bs-success-text-emphasis: #66b366;
   --bs-info-text-emphasis: white;
   --bs-warning-text-emphasis: #ffdb66;
   --bs-danger-text-emphasis: #d96c83;
@@ -315,7 +315,7 @@
   --bs-dark-text-emphasis: #dee2e6;
   --bs-primary-bg-subtle: #000815;
   --bs-secondary-bg-subtle: #332427;
-  --bs-success-bg-subtle: #051b11;
+  --bs-success-bg-subtle: #001a00;
   --bs-info-bg-subtle: #333333;
   --bs-warning-bg-subtle: #332700;
   --bs-danger-bg-subtle: #26020a;
@@ -323,7 +323,7 @@
   --bs-dark-bg-subtle: #1a1d20;
   --bs-primary-border-subtle: #00183e;
   --bs-secondary-border-subtle: #996d74;
-  --bs-success-border-subtle: #0f5132;
+  --bs-success-border-subtle: #004d00;
   --bs-info-border-subtle: #999999;
   --bs-warning-border-subtle: #997500;
   --bs-danger-border-subtle: #73061d;
@@ -4518,10 +4518,10 @@
 }
 
 .toast-success {
-  color: #fff;
+  color: #f8f9fa;
   filter: contrast(1.6);
   text-shadow: 0 0 1px rgba(136, 136, 136, 0.5333333333);
-  background-color: #198754;
+  background-color: #00b300;
   transition: all 1s ease-in-out;
 }
 

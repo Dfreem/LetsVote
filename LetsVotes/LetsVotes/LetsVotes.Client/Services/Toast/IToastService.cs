@@ -1,5 +1,4 @@
-﻿
-namespace Fruition.Client.Services.Toast
+﻿namespace LetsVotes.Client.Services.Toast
 {
     public interface IToastService
     {
