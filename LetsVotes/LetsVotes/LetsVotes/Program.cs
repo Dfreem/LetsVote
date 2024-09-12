@@ -1,5 +1,6 @@
 using LetsVotes.Client.Pages;
 using LetsVotes.Components;
+using LetsVotes.Client.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+builder.Services.RegisterCommonServices();
 
 var app = builder.Build();
 
