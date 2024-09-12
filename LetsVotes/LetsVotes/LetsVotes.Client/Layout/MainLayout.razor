@@ -3,16 +3,29 @@
 @inject IToastService _toast
 
 <Toast></Toast>
-<div class="page">
-    <main>
-        <article class="content">
+<div class="main-layout">
+    <header class="bg-primary text-white p-4 text-center">
+        <h1>Let's Vote Game</h1>
+    </header>
 
-            @Body
-        </article>
-    </main>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+        <NavMenu />
+    </nav>
+
+    <div class="page container-fluid">
+        <main>
+            <article class="content p-4">
+                @Body
+            </article>
+        </main>
+    </div>
+
+    <footer class="bg-dark text-white text-center p-2">
+        <p>&copy; 2024 Let's Vote Game</p>
+    </footer>
 </div>
 
-<div id="blazor-error-ui">
+<div id="blazor-error-ui" class="bg-danger text-white">
     An unhandled error has occurred.
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
@@ -25,7 +38,6 @@
         {
             #if DEBUG
             _toast.Success("Test Toast");
-
             #endif
         }
         base.OnAfterRender(firstRender);
