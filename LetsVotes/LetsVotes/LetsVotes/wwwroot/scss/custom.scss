@@ -3,23 +3,19 @@
 
 
 //uncomment command set these colors
-//$primary: ;
-//$secondary: ;
-//$tertiary: ;
-//$info: ;
-//$success:;
-//$danger: ;
-//$warning: ;
+$primary: ;
+$secondary: ;
+$tertiary: ;
+$info: ;
+$success:;
+$danger: ;
+$warning: ;
 
 @import "../lib/bootstrap/scss/_variables";
 @import "../lib/bootstrap/scss/_variables-dark";
 
 // 4. Include any default map overrides here
-/*$custom-colors: ( "theme-green": $theme-green, "theme-dark-green": $theme-dark-green, "theme-cornsilk": $theme-cornsilk, "theme-earth-yellow": $theme-earth-yellow, "theme-tigers-eye": $theme-tigers-eye, "theme-olivine": $theme-olivine, "theme-flax": $theme-flax, "theme-sandy-brown": $theme-sandy-brown, "theme-viridian": $theme-viridian, "theme-bittersweet-shimmer": $theme-bittersweet-shimmer, "theme-professional-grey": $theme-professional-grey );
-
-*/
-//$theme-colors: map-merge-multiple($theme-colors, $custom-colors);
-//$all-colors: map-merge-multiple($blues, $indigos, $purples, $pinks, $reds, $oranges, $yellows, $greens, $teals, $cyans, $theme-colors);
+$theme-colors: map-merge-multiple($blues, $indigos, $purples, $pinks, $reds, $oranges, $yellows, $greens, $teals, $cyans, ("primary": $primary, "secondary": $secondary, "tertiary": $tertiary));
 
 // 5. Include remainder of required parts
 @import "../lib/bootstrap/scss/maps";
@@ -28,7 +24,7 @@
 @import "../lib/bootstrap/scss/buttons";
 @import "../lib/bootstrap/scss/helpers/colored-links";
 
-//$utilities: map-merge( $utilities, ( "color": map-merge( map-get($utilities, "color"), ( values: map-merge( map-get(map-get($utilities, "text-color"), "values"), ( $all-colors ))))));
+//$utilities: map-merge( $utilities, ( "color": map-merge( map-get($utilities, "color"), ( values: map-merge( map-get(map-get($utilities, "text-color"), "values"), ( $theme-colors ))))));
 
 //@each $color, $value in $all-colors
 //{
