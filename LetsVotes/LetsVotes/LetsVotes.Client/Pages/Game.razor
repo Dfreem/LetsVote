@@ -1,0 +1,95 @@
+﻿@page "/game"
+
+<PageTitle>Tug of War Game</PageTitle>
+
+<div class="container text-center">
+    <h1>Tug of War Game</h1>
+
+    <!-- Game Area with Team Images -->
+    <div class="game-area my-4 position-relative">
+        <!-- Team A on the left, facing right -->
+        <div class="team team-a" style="left:@(PositionOffset -25)%;">
+            <img src="images/teamA.png" alt="Team A" class="team-image img-fluid team-a-image" />
+            <h3>Team A</h3>
+        </div>
+
+        <!-- Rope will be in the center, positioned dynamically with the two teams based on vote difference -->
+        <div class="rope" style="left:@(PositionOffset + 25)%;">
+            <img src="images/rope.png" alt="Rope" class="rope-image img-fluid" />
+        </div>
+
+        <!-- Team B on the right, facing left -->
+        <div class="team team-b" style="left:@(PositionOffset + 50)%;">
+            <img src="images/teamB.png" alt="Team B" class="team-image img-fluid team-b-image" />
+            <h3>Team B</h3>
+        </div>
+    </div>
+
+    <!-- Voting Buttons -->
+    <div class="voting-buttons my-4">
+        <button class="btn btn-danger btn-lg" @onclick="VoteTeamA">Vote for Team A</button>
+        <button class="btn btn-primary btn-lg" @onclick="VoteTeamB">Vote for Team B</button>
+    </div>
+
+    <!-- Display the Vote Counts -->
+    <div class="vote-counts my-4">
+        <p>Team A Votes: @TeamAVotes</p>
+        <p>Team B Votes: @TeamBVotes</p>
+    </div>
+</div>
+
+@code {
+    // Initial vote counts for both teams ... this might be a weird way to do this, but I'm not sure how we're going to handle the voting yet
+    private int TeamAVotes = 50;
+    private int TeamBVotes = 50;
+
+    // Calculate the vote difference to shift the entire group (Team A, Rope, Team B)
+    private int VoteDifference => TeamAVotes - TeamBVotes;
+
+    // Use the vote difference to shift the entire group left or right, inverted ... I spent a long time fanagling this to get it to work
+    private double PositionOffset => 25 - (VoteDifference * 0.5); // Inverted movement direction
+
+    // I'm not sure how we're going to handle the voting yet, so I'm just incrementing the vote counts for now from a button on the front end
+    private void VoteTeamA()
+    {
+        TeamAVotes++;
+    }
+
+    private void VoteTeamB()
+    {
+        TeamBVotes++;
+    }
+}
+
+<!-- Custom CSS TO BE MOVED ELSEWHERE -->
+<style>
+    .game-area {
+        width: 100%;
+        height: 200px;
+        background-color: #f0f0f0;
+        position: relative;
+    }
+
+    .team {
+        position: absolute;
+        bottom: 0;
+    }
+
+    .team-image {
+        max-width: 150px;
+    }
+
+    .rope-image {
+        max-width: 100px;
+        position: absolute;
+        bottom: 0;
+    }
+
+    .voting-buttons {
+        margin-top: 2rem;
+    }
+
+    .vote-counts {
+        font-size: 1.5rem;
+    }
+</style>
