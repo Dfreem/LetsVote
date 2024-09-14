@@ -3,6 +3,7 @@
 @using LetsVote.Client.Services.Toast
 @using LetsVote.Shared.DTO
 @using Microsoft.AspNetCore.SignalR.Client
+@using System.Timers
 @inject NavigationManager _nav
 @inject IToastService _toast
 
@@ -36,18 +37,22 @@
             </div>
         </div>
     }
-    <div class="d-flex">
-        <div class="col text-nowrap gap-2 mx-auto">
-            @if (Team == "A")
-            {
-                <button @onclick='OnLeft'>Left</button>
-            }
-            else if (Team == "B")
-            {
-                <button @onclick='OnRight'>Right</button>
-            }
+    @if (IsPlaying)
+    {
+
+        <div class="d-flex">
+            <div class="col text-nowrap gap-2 mx-auto">
+                @if (Team == "A")
+                {
+                    <button @onclick='OnLeft'>Left</button>
+                }
+                else if (Team == "B")
+                {
+                    <button @onclick='OnRight'>Right</button>
+                }
+            </div>
         </div>
-    </div>
+    }
 </div>
 
 
@@ -57,8 +62,6 @@
     public bool OpenDialog { get; set; }
 
     public string? DialogMessage { get; set; }
-
-    string? _serverConnectionId;
 
     public string? Team { get; set; }
 
@@ -70,7 +73,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-
         var gameStateUrl = _nav.ToAbsoluteUri("/tug-game");
         _gameHubConnection = new HubConnectionBuilder()
         .WithUrl(gameStateUrl)
@@ -79,9 +81,10 @@
         .Build();
 
         _gameHubConnection.On<TugGameEventArgs>("RecieveGameState", OnGameStateUpdate);
+        _gameHubConnection.On<GameOverArgs>("GameOver", OnGameOver);
         await _gameHubConnection.StartAsync();
         await _gameHubConnection.InvokeAsync("AddToListenerGroup");
-
+        IsPlaying = true;
         await base.OnInitializedAsync();
     }
 
@@ -94,9 +97,21 @@
 
     public void OnGameOver(GameOverArgs args)
     {
-        DialogMessage = $"{args.WinningTeam} Wins!";
+        IsPlaying = false;
+        DialogMessage = $"Team {args.WinningTeam} Wins!";
+
+        Timer timer = new();
+        timer.Interval = 5000;
+        timer.Elapsed += (sender, args) =>
+        {
+            DialogMessage = null;
+            OpenDialog = false;
+            _ = InvokeAsync(StateHasChanged);
+        };
+
         OpenDialog = true;
         _ = InvokeAsync(StateHasChanged);
+        timer.Start();
     }
 
     public async Task OnLeft()

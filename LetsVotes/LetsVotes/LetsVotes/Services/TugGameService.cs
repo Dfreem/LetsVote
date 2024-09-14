@@ -19,7 +19,7 @@ public class TugGameService : IHostedService, ITugClient
 
     int _teamB;
 
-    int _target = 10;
+    GameConfiguration _config = new();
 
     public TugGameService()
     {
@@ -77,6 +77,16 @@ public class TugGameService : IHostedService, ITugClient
             TeamB = _teamB
         };
         await _hubConnection.InvokeAsync<TugGameEventArgs>("SendGameStateToAll", args);
+        if (_teamA >= _config.VoteTarget)
+        {
+            GameOverArgs gameOverArgs = new()
+            {
+                TeamA = _teamA,
+                TeamB = _teamB,
+                WinningTeam = "A"
+            };
+            await _hubConnection.InvokeAsync<GameOverArgs>("SendGameOver", gameOverArgs);
+        }
     }
     public async Task Right()
     {
@@ -87,6 +97,22 @@ public class TugGameService : IHostedService, ITugClient
             TeamB = _teamB
         };
         await _hubConnection.InvokeAsync<TugGameEventArgs>("SendGameStateToAll", args);
+        if (_teamB >= _config.VoteTarget)
+        {
+            GameOverArgs gameOverArgs = new()
+            {
+                TeamA = _teamA,
+                TeamB = _teamB,
+                WinningTeam = "B"
+            };
+            await _hubConnection.InvokeAsync<GameOverArgs>("SendGameOver", gameOverArgs);
+        }
+    }
+
+    public Task Configure(GameConfiguration config)
+    {
+        _config = config;
+        return Task.CompletedTask;
     }
 
     // No-Op
@@ -105,4 +131,5 @@ public class TugGameService : IHostedService, ITugClient
     {
         throw new NotImplementedException();
     }
+
 }

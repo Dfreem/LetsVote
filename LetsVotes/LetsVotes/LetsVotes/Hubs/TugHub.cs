@@ -14,6 +14,7 @@ public class TugHub : Hub<ITugClient>
 
     public async Task AddToListenerGroup()
     {
+        // TODO Use unique group name for individual games.
         await Groups.AddToGroupAsync(Context.ConnectionId, "listeners");
     }
 
@@ -37,6 +38,11 @@ public class TugHub : Hub<ITugClient>
     {
         await Clients.Group("server").Left();
     }
+
+    public async Task ConfigureGame(GameConfiguration config)
+    {
+        await Clients.Group("server").Configure(config);
+    }
 }
 
  public interface ITugClient
@@ -51,4 +57,6 @@ public class TugHub : Hub<ITugClient>
     Task Right();
 
     Task Left();
+
+    Task Configure(GameConfiguration config);
 }
