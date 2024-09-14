@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Design;
-using LetsVotes.Client.Services.Toast;
+using LetsVote.Client.Services.Toast;
 
-namespace LetsVotes.Client.Extensions;
+namespace LetsVote.Client.Extensions;
 
 public static class StartupExtensions
 {

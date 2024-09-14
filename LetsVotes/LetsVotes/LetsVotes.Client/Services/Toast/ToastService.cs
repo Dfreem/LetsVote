@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LetsVotes.Client.Services.Toast;
+namespace LetsVote.Client.Services.Toast;
 public class ToastService() : IToastService
 {
     ConcurrentQueue<ToastEventArgs> _queue = new();
