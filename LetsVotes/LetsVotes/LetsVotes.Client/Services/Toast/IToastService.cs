@@ -1,4 +1,4 @@
-﻿namespace LetsVotes.Client.Services.Toast
+﻿namespace LetsVote.Client.Services.Toast
 {
     public interface IToastService
     {

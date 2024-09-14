@@ -1,14 +1,29 @@
-using LetsVotes.Client.Pages;
-using LetsVotes.Components;
-using LetsVotes.Client.Extensions;
+using LetsVote.Client.Pages;
+using LetsVote.Components;
+using LetsVote.Client.Extensions;
+using LetsVote.Hubs;
+using Microsoft.AspNetCore.Builder;
+using LetsVote.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<HostOptions>(config =>
+{
+    config.ServicesStartConcurrently = true;
+    config.ServicesStopConcurrently = true;
+});
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+builder.Services.AddSignalR(config =>
+{
+    config.EnableDetailedErrors = true;
+    config.MaximumParallelInvocationsPerClient = 2;
+});
 builder.Services.RegisterCommonServices();
+builder.Services.AddHostedService<TugGameService>();
 
 var app = builder.Build();
 
@@ -32,6 +47,7 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(LetsVotes.Client._Imports).Assembly);
+    .AddAdditionalAssemblies(typeof(LetsVote.Client._Imports).Assembly);
+app.MapHub<TugHub>("/tug-game");
 
 app.Run();
