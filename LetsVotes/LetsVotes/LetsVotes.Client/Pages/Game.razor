@@ -1,4 +1,11 @@
 ﻿@page "/game"
+@using LetsVote.Client.Components
+@using LetsVote.Client.Services.Toast
+@using LetsVote.Shared.DTO
+@using Microsoft.AspNetCore.SignalR.Client
+@using System.Timers
+@inject NavigationManager _nav
+@inject IToastService _toast
 
 <PageTitle>Tug of War Game</PageTitle>
 
@@ -7,22 +14,22 @@
 
     <!-- Game Area with Team Images -->
     <div class="game-area my-4 position-relative">
-        <!-- Team A on the left, facing right -->
+        <!-- Team A on the left, facing right 
         <div class="team team-a" style="left:@(PositionOffset -25)%;">
             <img src="images/teamA.png" alt="Team A" class="team-image img-fluid team-a-image" />
             <h3>Team A</h3>
         </div>
 
-        <!-- Rope will be in the center, positioned dynamically with the two teams based on vote difference -->
+        -- Rope will be in the center, positioned dynamically with the two teams based on vote difference 
         <div class="rope" style="left:@(PositionOffset + 25)%;">
             <img src="images/rope.png" alt="Rope" class="rope-image img-fluid" />
         </div>
 
-        <!-- Team B on the right, facing left -->
+        -- Team B on the right, facing left 
         <div class="team team-b" style="left:@(PositionOffset + 50)%;">
             <img src="images/teamB.png" alt="Team B" class="team-image img-fluid team-b-image" />
             <h3>Team B</h3>
-        </div>
+        </div> -->
     </div>
 
     <!-- Voting Buttons -->
@@ -39,25 +46,75 @@
 </div>
 
 @code {
-    // Initial vote counts for both teams ... this might be a weird way to do this, but I'm not sure how we're going to handle the voting yet
-    private int TeamAVotes = 50;
-    private int TeamBVotes = 50;
+    // HubConnection for SignalR communication
+    private HubConnection? _gameHubConnection;
 
-    // Calculate the vote difference to shift the entire group (Team A, Rope, Team B)
-    private int VoteDifference => TeamAVotes - TeamBVotes;
+    // Vote counts for each team
+    private int TeamAVotes { get; set; }
+    private int TeamBVotes { get; set; }
 
-    // Use the vote difference to shift the entire group left or right, inverted ... I spent a long time fanagling this to get it to work
-    private double PositionOffset => 25 - (VoteDifference * 0.5); // Inverted movement direction
+    // NavigationManager for URL navigation
+    [Inject] private NavigationManager Navigation { get; set; } = null!;
 
-    // I'm not sure how we're going to handle the voting yet, so I'm just incrementing the vote counts for now from a button on the front end
-    private void VoteTeamA()
+    // ======= Minimal setup for testing SignalR connection =======
+    protected override async Task OnInitializedAsync()
     {
-        TeamAVotes++;
+        // Connect to the SignalR hub
+        var gameStateUrl = _nav.ToAbsoluteUri("/tug-game");
+        _gameHubConnection = new HubConnectionBuilder()
+        .WithUrl(gameStateUrl)
+        .WithAutomaticReconnect()
+        .WithStatefulReconnect()
+        .Build();
+
+        _gameHubConnection.On<TugGameEventArgs>("RecieveGameState", OnGameStateUpdate);
+
+        try
+        {
+            await _gameHubConnection.StartAsync();
+            await _gameHubConnection.InvokeAsync("AddToListenerGroup");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Connection failed: {ex.Message}");
+        }
+
+        await base.OnInitializedAsync();
     }
 
-    private void VoteTeamB()
+    // Handle game state update from server
+    private void OnGameStateUpdate(TugGameEventArgs args)
     {
-        TeamBVotes++;
+        TeamAVotes = args.TeamA;
+        TeamBVotes = args.TeamB;
+        InvokeAsync(StateHasChanged);
+    }
+
+    // Stub for voting for Team A
+    private async Task VoteTeamA()
+    {
+        if (_gameHubConnection is not null)
+        {
+            await _gameHubConnection.InvokeAsync("TugLeft");
+        }
+    }
+
+    // Stub for voting for Team B
+    private async Task VoteTeamB()
+    {
+        if (_gameHubConnection is not null)
+        {
+            await _gameHubConnection.InvokeAsync("TugRight");
+        }
+    }
+
+    // Dispose connection
+    public void Dispose()
+    {
+        if (_gameHubConnection is not null)
+        {
+            _gameHubConnection.DisposeAsync();
+        }
     }
 }
 
