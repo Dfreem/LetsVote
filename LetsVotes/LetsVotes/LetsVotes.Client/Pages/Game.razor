@@ -60,7 +60,8 @@
     private int VoteDifference => TeamAVotes - TeamBVotes;
 
     // Use the vote difference to shift the entire group left or right
-    private double PositionOffset => VoteDifference * 0.5; // Adjust this value as needed for smooth movement
+    //private double PositionOffset => VoteDifference * 0.5;
+    private double PositionOffset => VoteDifference * -0.5; // needed to reverse the direction
 
 
     // ======= Minimal setup for testing SignalR connection =======
