@@ -15,18 +15,18 @@
     <!-- Game Area with Team Images -->
     <div class="game-area my-4 position-relative">
         <!-- Team A on the left -->
-        <div class="team team-a" style="left:@(PositionOffset - 25)%;">
+        <div class="team team-a" style="left:@(50 + PositionOffset - 25)%;">
             <img src="images/teamA.png" alt="Team A" class="team-image img-fluid" />
             <p>Team A: @TeamAVotes</p>
         </div>
 
         <!-- Rope in the center -->
-        <div class="rope" style="left:@(PositionOffset + 25)%;">
+        <div class="rope" style="left:@(50 + PositionOffset)%;">
             <img src="images/rope.png" alt="Rope" class="rope-image img-fluid" />
         </div>
 
         <!-- Team B on the right -->
-        <div class="team team-b" style="left:@(PositionOffset + 50)%;">
+        <div class="team team-b" style="left:@(50 + PositionOffset + 25)%;">
             <img src="images/teamB.png" alt="Team B" class="team-image img-fluid" />
             <p>Team B: @TeamBVotes</p>
         </div>
