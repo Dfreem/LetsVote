@@ -14,22 +14,22 @@
 
     <!-- Game Area with Team Images -->
     <div class="game-area my-4 position-relative">
-        <!-- Team A on the left, facing right 
-        <div class="team team-a" style="left:@(PositionOffset -25)%;">
-            <img src="images/teamA.png" alt="Team A" class="team-image img-fluid team-a-image" />
-            <h3>Team A</h3>
+        <!-- Team A on the left -->
+        <div class="team team-a" style="left:@(PositionOffset - 25)%;">
+            <img src="images/teamA.png" alt="Team A" class="team-image img-fluid" />
+            <p>Team A: @TeamAVotes</p>
         </div>
 
-        -- Rope will be in the center, positioned dynamically with the two teams based on vote difference 
+        <!-- Rope in the center -->
         <div class="rope" style="left:@(PositionOffset + 25)%;">
             <img src="images/rope.png" alt="Rope" class="rope-image img-fluid" />
         </div>
 
-        -- Team B on the right, facing left 
+        <!-- Team B on the right -->
         <div class="team team-b" style="left:@(PositionOffset + 50)%;">
-            <img src="images/teamB.png" alt="Team B" class="team-image img-fluid team-b-image" />
-            <h3>Team B</h3>
-        </div> -->
+            <img src="images/teamB.png" alt="Team B" class="team-image img-fluid" />
+            <p>Team B: @TeamBVotes</p>
+        </div>
     </div>
 
     <!-- Voting Buttons -->
@@ -56,6 +56,13 @@
     // NavigationManager for URL navigation
     [Inject] private NavigationManager Navigation { get; set; } = null!;
 
+    // Calculate the vote difference to shift the entire group (Team A, Rope, Team B)
+    private int VoteDifference => TeamAVotes - TeamBVotes;
+
+    // Use the vote difference to shift the entire group left or right
+    private double PositionOffset => VoteDifference * 0.5; // Adjust this value as needed for smooth movement
+
+
     // ======= Minimal setup for testing SignalR connection =======
     protected override async Task OnInitializedAsync()
     {
@@ -64,7 +71,7 @@
         _gameHubConnection = new HubConnectionBuilder()
         .WithUrl(gameStateUrl)
         .WithAutomaticReconnect()
-        .WithStatefulReconnect()
+        //.WithStatefulReconnect()
         .Build();
 
         _gameHubConnection.On<TugGameEventArgs>("RecieveGameState", OnGameStateUpdate);
