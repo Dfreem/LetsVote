@@ -3,7 +3,6 @@
 @using LetsVote.Client.Services.Toast
 @using LetsVote.Shared.DTO
 @using Microsoft.AspNetCore.SignalR.Client
-@using System.Timers
 @inject NavigationManager _nav
 @inject IToastService _toast
 
@@ -36,32 +35,27 @@
     <div class="monster-area">
         @if (!IsStunned && !IsMonsterDefeated)
         {
-            <div class="monster-image" style="position:absolute; top:-50px; @GetMonsterPosition(CorrectButton)">
-                <img src="images/monster.png" alt="Monster" />
+            <div class="monster-image" style="left:@(GetMonsterPosition())%;">
+                <img src="@MonsterImage" alt="Monster" />
+                <p>@MonsterMessage</p>
             </div>
         }
         else if (IsStunned)
         {
             <p>You're stunned! Wait for a few seconds...</p>
         }
+        else if (IsMonsterDefeated)
+        {
+            <p>@SuccessMessage</p>
+        }
     </div>
 
     <!-- Monster Fight Button Area -->
     <div class="button-area my-4">
-        <button class="btn btn-danger" @onclick="@(() => ButtonClicked("A"))" disabled="@IsStunned">A</button>
-        <button class="btn btn-warning" @onclick="@(() => ButtonClicked("B"))" disabled="@IsStunned">B</button>
-        <button class="btn btn-success" @onclick="@(() => ButtonClicked("C"))" disabled="@IsStunned">C</button>
+        <button class="btn btn-danger" @onclick='() => ButtonClicked("A")' disabled="@IsStunned">A</button>
+        <button class="btn btn-warning" @onclick='() => ButtonClicked("B")' disabled="@IsStunned">B</button>
+        <button class="btn btn-success" @onclick='() => ButtonClicked("C")' disabled="@IsStunned">C</button>
     </div>
-
-    <!-- Success Message Section -->
-    @if (!string.IsNullOrEmpty(SuccessMessage))
-    {
-        <div class="alert alert-success my-4">
-            <p>@SuccessMessage</p>
-        </div>
-    }
-
-
 
     <!-- Display the Vote Counts -->
     <div class="vote-counts my-4">
@@ -71,46 +65,39 @@
 </div>
 
 @code {
-    // HubConnection for SignalR communication
+    // SignalR Hub connection
     private HubConnection? _gameHubConnection;
 
-    private string? SuccessMessage { get; set; }
-
-
-    // Vote counts for each team
+    // Vote counts
     private int TeamAVotes { get; set; }
     private int TeamBVotes { get; set; }
 
-    // Player's chosen team
-    private string PlayerTeam { get; set; } = "A"; // Default to Team A
+    // Player's team selection
+    private string PlayerTeam { get; set; } = "A";
 
     // Monster variables
+    private string MonsterImage { get; set; } = "images/monster.png"; // Default monster
+    private string[] MonsterImages = { "images/monster.png", "images/monster2.png" };
     private string CorrectButton;
     private string MonsterMessage;
     private bool IsMonsterDefeated = false;
     private bool IsStunned = false;
     private int StunDuration = 3000; // 3 seconds stun duration
+    private string SuccessMessage { get; set; } = string.Empty;
 
-    // NavigationManager for URL navigation
-    [Inject] private NavigationManager Navigation { get; set; } = null!;
-
-    // Calculate the vote difference to shift the entire group (Team A, Rope, Team B)
+    // Calculate vote difference and shift
     private int VoteDifference => TeamAVotes - TeamBVotes;
+    private double PositionOffset => VoteDifference * -0.5; // Reverse direction
 
-    // Use the vote difference to shift the entire group left or right
-    private double PositionOffset => VoteDifference * -0.5;
-
-    // ======= Minimal setup for testing SignalR connection =======
     protected override async Task OnInitializedAsync()
     {
-        // Connect to the SignalR hub
+        // Connect to SignalR hub
         var gameStateUrl = _nav.ToAbsoluteUri("/tug-game");
         _gameHubConnection = new HubConnectionBuilder()
             .WithUrl(gameStateUrl)
             .WithAutomaticReconnect()
             .Build();
 
-        // Listening for game state updates
         _gameHubConnection.On<TugGameEventArgs>("RecieveGameState", OnGameStateUpdate);
 
         try
@@ -118,7 +105,7 @@
             await _gameHubConnection.StartAsync();
             await _gameHubConnection.InvokeAsync("AddToListenerGroup");
 
-            // Start the monster spawning
+            // Start spawning monsters
             StartMonsterSpawn();
         }
         catch (Exception ex)
@@ -129,7 +116,6 @@
         await base.OnInitializedAsync();
     }
 
-    // Handle game state update from server
     private void OnGameStateUpdate(TugGameEventArgs args)
     {
         TeamAVotes = args.TeamA;
@@ -144,25 +130,38 @@
         {
             while (true)
             {
-                await Task.Delay(5000); // New monster every 5 seconds
+                await Task.Delay(5000); // Spawn new monster every 5 seconds
                 RandomizeMonster();
                 IsMonsterDefeated = false;
                 IsStunned = false;
-                SuccessMessage = null;
+                SuccessMessage = string.Empty;
                 InvokeAsync(StateHasChanged);
             }
         });
     }
 
-    // Randomize the monster to appear above a button
+    // Randomize the monster image and placement
     private void RandomizeMonster()
     {
         var buttons = new[] { "A", "B", "C" };
         CorrectButton = buttons[new Random().Next(0, buttons.Length)];
+        MonsterImage = MonsterImages[new Random().Next(0, MonsterImages.Length)];
         MonsterMessage = $"A monster appears above button {CorrectButton}!";
     }
 
-    // Handle button clicks
+    // Calculate monster position above the correct button
+    private double GetMonsterPosition()
+    {
+        return CorrectButton switch
+        {
+            "A" => 20, // Position above button A
+            "B" => 50, // Position above button B
+            "C" => 80, // Position above button C
+            _ => 50    // Default to center
+        };
+    }
+
+    // Handle button click to fight the monster
     private async Task ButtonClicked(string button)
     {
         if (button == CorrectButton)
@@ -174,7 +173,7 @@
         }
         else
         {
-            // Wrong button clicked, player gets stunned
+            // Wrong button clicked, player is stunned
             IsStunned = true;
             await Task.Delay(StunDuration);
             IsStunned = false;
@@ -198,68 +197,36 @@
         }
     }
 
-    // Handle monster positioning 
-    private string GetMonsterPosition(string button)
-    {
-        // Logic to return the appropriate style for the monster's position
-        return button switch
-        {
-            "A" => "position: absolute; top: 0; left: 10%;", // For button A
-            "B" => "position: absolute; top: 0; left: 45%;", // For button B
-            "C" => "position: absolute; top: 0; left: 80%;", // For button C
-            _ => "position: absolute; top: 0; left: 0;", // Default position
-        };
-    }
-
-
-    // Dispose connection
-    public async ValueTask DisposeAsync()
+    public void Dispose()
     {
         if (_gameHubConnection is not null)
         {
-            await _gameHubConnection.DisposeAsync();
+            _gameHubConnection.DisposeAsync();
         }
     }
 }
 
-<!-- Custom CSS TO BE MOVED ELSEWHERE -->
+<!-- Styles -->
 <style>
-    .game-area {
-        width: 100%;
-        height: 200px;
-        background-color: #f0f0f0;
-        position: relative;
-    }
-
-    .team {
-        position: absolute;
-        bottom: 0;
-    }
-
-    .team-image {
-        max-width: 150px;
-    }
-
-    .rope-image {
-        max-width: 100px;
-        position: absolute;
-        bottom: 0;
-    }
-
     .monster-area {
         margin-top: 2rem;
         height: 200px;
         position: relative;
     }
 
-    .monster-image img {
-        max-width: 100px;
+    .monster-image {
+        position: absolute;
+        top: -50px; /* Position monster above the buttons */
+        transition: left 0.5s ease-in-out; /* Smooth transition for monster movement */
     }
+
+        .monster-image img {
+            max-width: 80px;
+        }
 
     .button-area {
         display: flex;
-        justify-content: center;
-        gap: 10px;
+        justify-content: space-around;
     }
 
     .vote-counts {
