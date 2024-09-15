@@ -36,9 +36,8 @@
     <div class="monster-area">
         @if (!IsStunned && !IsMonsterDefeated)
         {
-            <div class="monster-image">
+            <div class="monster-image" style="position:absolute; top:-50px; @GetMonsterPosition(CorrectButton)">
                 <img src="images/monster.png" alt="Monster" />
-                <p>@MonsterMessage</p>
             </div>
         }
         else if (IsStunned)
@@ -49,19 +48,20 @@
 
     <!-- Monster Fight Button Area -->
     <div class="button-area my-4">
-        <button class="btn btn-danger" @onclick='() => ButtonClicked("A")' disabled="@IsStunned">A</button>
-        <button class="btn btn-warning" @onclick='() => ButtonClicked("B")' disabled="@IsStunned">B</button>
-        <button class="btn btn-success" @onclick='() => ButtonClicked("C")' disabled="@IsStunned">C</button>
+        <button class="btn btn-danger" @onclick="@(() => ButtonClicked("A"))" disabled="@IsStunned">A</button>
+        <button class="btn btn-warning" @onclick="@(() => ButtonClicked("B"))" disabled="@IsStunned">B</button>
+        <button class="btn btn-success" @onclick="@(() => ButtonClicked("C"))" disabled="@IsStunned">C</button>
     </div>
 
+    <!-- Success Message Section -->
+    @if (!string.IsNullOrEmpty(SuccessMessage))
+    {
+        <div class="alert alert-success my-4">
+            <p>@SuccessMessage</p>
+        </div>
+    }
 
 
-
-    <!-- Voting Buttons 
-    <div class="voting-buttons my-4">
-        <button class="btn btn-danger btn-lg" @onclick="VoteTeamA">Vote for Team A</button>
-        <button class="btn btn-primary btn-lg" @onclick="VoteTeamB">Vote for Team B</button>
-    </div> -->
 
     <!-- Display the Vote Counts -->
     <div class="vote-counts my-4">
@@ -74,13 +74,15 @@
     // HubConnection for SignalR communication
     private HubConnection? _gameHubConnection;
 
+    private string? SuccessMessage { get; set; }
+
+
     // Vote counts for each team
     private int TeamAVotes { get; set; }
     private int TeamBVotes { get; set; }
 
     // Player's chosen team
-    private string PlayerTeam { get; set; } = "A"; // Default to Team A -- We should change this later
-
+    private string PlayerTeam { get; set; } = "A"; // Default to Team A
 
     // Monster variables
     private string CorrectButton;
@@ -96,9 +98,7 @@
     private int VoteDifference => TeamAVotes - TeamBVotes;
 
     // Use the vote difference to shift the entire group left or right
-    //private double PositionOffset => VoteDifference * 0.5;
-    private double PositionOffset => VoteDifference * -0.5; // needed to reverse the direction
-
+    private double PositionOffset => VoteDifference * -0.5;
 
     // ======= Minimal setup for testing SignalR connection =======
     protected override async Task OnInitializedAsync()
@@ -106,11 +106,11 @@
         // Connect to the SignalR hub
         var gameStateUrl = _nav.ToAbsoluteUri("/tug-game");
         _gameHubConnection = new HubConnectionBuilder()
-        .WithUrl(gameStateUrl)
-        .WithAutomaticReconnect()
-        //.WithStatefulReconnect()
-        .Build();
+            .WithUrl(gameStateUrl)
+            .WithAutomaticReconnect()
+            .Build();
 
+        // Listening for game state updates
         _gameHubConnection.On<TugGameEventArgs>("RecieveGameState", OnGameStateUpdate);
 
         try
@@ -148,6 +148,7 @@
                 RandomizeMonster();
                 IsMonsterDefeated = false;
                 IsStunned = false;
+                SuccessMessage = null;
                 InvokeAsync(StateHasChanged);
             }
         });
@@ -168,6 +169,7 @@
         {
             // Correct button clicked, monster defeated
             IsMonsterDefeated = true;
+            SuccessMessage = "You successfully struck the monster and got to the ballot box! That's a vote for your candidate!";
             await SubmitVote();
         }
         else
@@ -196,30 +198,26 @@
         }
     }
 
-    /* Stub for voting for Team A
-    private async Task VoteTeamA()
+    // Handle monster positioning 
+    private string GetMonsterPosition(string button)
     {
-        if (_gameHubConnection is not null)
+        // Logic to return the appropriate style for the monster's position
+        return button switch
         {
-            await _gameHubConnection.InvokeAsync("TugLeft");
-        }
-    } 
+            "A" => "position: absolute; top: 0; left: 10%;", // For button A
+            "B" => "position: absolute; top: 0; left: 45%;", // For button B
+            "C" => "position: absolute; top: 0; left: 80%;", // For button C
+            _ => "position: absolute; top: 0; left: 0;", // Default position
+        };
+    }
 
-    // Stub for voting for Team B
-    private async Task VoteTeamB()
-    {
-        if (_gameHubConnection is not null)
-        {
-            await _gameHubConnection.InvokeAsync("TugRight");
-        }
-    } */
 
     // Dispose connection
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
         if (_gameHubConnection is not null)
         {
-            _gameHubConnection.DisposeAsync();
+            await _gameHubConnection.DisposeAsync();
         }
     }
 }
@@ -251,20 +249,17 @@
     .monster-area {
         margin-top: 2rem;
         height: 200px;
+        position: relative;
     }
 
     .monster-image img {
         max-width: 100px;
     }
 
-    .button-area { 
+    .button-area {
         display: flex;
         justify-content: center;
         gap: 10px;
-    }
-
-    .voting-buttons {
-        margin-top: 2rem;
     }
 
     .vote-counts {
