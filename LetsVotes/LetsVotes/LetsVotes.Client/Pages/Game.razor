@@ -9,6 +9,15 @@
 
 <PageTitle>Tug of War Game</PageTitle>
 
+<!-- Team Selection Dropdown -->
+<div class="container text-center my-4">
+    <label for="teamSelect">Choose your team:</label>
+    <select id="teamSelect" @onchange="OnTeamSelected" class="form-control">
+        <option value="A" selected="@((PlayerTeam == "A") ? "selected" : null)">Team A</option>
+        <option value="B" selected="@((PlayerTeam == "B") ? "selected" : null)">Team B</option>
+    </select>
+</div>
+
     <!-- Onkeydown event to capture keypresses -->
 <div class="container text-center" @onkeydown="HandleKeyPress" tabindex="0">
         <h1>Voting Game</h1>
@@ -140,6 +149,14 @@
         await base.OnInitializedAsync();
     }
 
+    private async Task OnTeamSelected(ChangeEventArgs e)
+    {
+        PlayerTeam = e.Value?.ToString();
+        await InvokeAsync(StateHasChanged); // Update UI when the team selection changes
+    }
+
+
+
     private void OnGameStateUpdate(TugGameEventArgs args)
     {
         TeamAVotes = args.TeamA;
@@ -174,7 +191,7 @@
         var buttons = new[] { "A", "B", "C" };
         CorrectButton = buttons[new Random().Next(0, buttons.Length)];
         MonsterImage = MonsterImages[new Random().Next(0, MonsterImages.Length)];
-        MonsterMessage = $"A monster appears above button {CorrectButton}!";
+        //MonsterMessage = $"A monster appears above button {CorrectButton}!";
     }
 
     private void RandomizeDecoy()
