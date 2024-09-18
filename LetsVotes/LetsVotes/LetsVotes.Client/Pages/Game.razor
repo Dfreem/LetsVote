@@ -9,32 +9,32 @@
 
 <PageTitle>Tug of War Game</PageTitle>
 
-
-
     <!-- Onkeydown event to capture keypresses -->
 <div class="container text-center" @onkeydown="HandleKeyPress" tabindex="0">
         <h1>Voting Game</h1>
 
 
-    <!-- Game Area with Team Images -->
     <div class="game-area my-4 position-relative">
         <!-- Team A on the left -->
-        <div class="team team-a" style="left:@(50 + PositionOffset - 25)%;">
+        <div class="team team-a" style="left:@TeamAStyle;">
             <img src="images/teamA.png" alt="Team A" class="team-image img-fluid" />
             <p>Team A: @TeamAVotes</p>
         </div>
 
         <!-- Rope in the center -->
-        <div class="rope" style="left:@(50 + PositionOffset)%;">
+        <div class="rope" style="left:@RopeStyle;">
             <img src="images/rope.png" alt="Rope" class="rope-image img-fluid" />
         </div>
 
         <!-- Team B on the right -->
-        <div class="team team-b" style="left:@(50 + PositionOffset + 25)%;">
+        <div class="team team-b" style="left:@TeamBStyle;">
             <img src="images/teamB.png" alt="Team B" class="team-image img-fluid" />
             <p>Team B: @TeamBVotes</p>
         </div>
     </div>
+
+
+
 
     <!-- Monster Attack Section -->
     <div class="monster-area">
@@ -42,7 +42,7 @@
         {
             <div class="monster-image" style="left:@(GetMonsterPosition())%;">
                 <img src="@MonsterImage" alt="Monster" />
-                <p>@MonsterMessage</p>
+                
             </div>
 
             @if (ShowDecoyMonster)
@@ -94,8 +94,15 @@
     private string MonsterMessage { get; set; } = string.Empty;
     private bool IsMonsterDefeated = false;
     private bool IsStunned = false;
-    private int StunDuration = 3000; // 3 seconds stun duration
+    private int StunDuration = 3000;
     private string SuccessMessage { get; set; } = string.Empty;
+
+    // Team and rope position styles
+    private string TeamAStyle => $"{20 + PositionOffset}%"; // Moves left as votes shift
+    private string RopeStyle => $"{40 + PositionOffset}%"; // Rope should stay at the middle
+    private string TeamBStyle => $"{30 + PositionOffset + 25}%"; // Moves right as votes shift
+
+
 
     // Decoy monster variables
     private bool ShowDecoyMonster { get; set; } = false;
@@ -104,10 +111,8 @@
     // Monster spawn timer
     private System.Timers.Timer _monsterSpawnTimer;
 
-
-    // Calculate vote difference and shift
     private int VoteDifference => TeamAVotes - TeamBVotes;
-    private double PositionOffset => VoteDifference * -0.5; // Reverse direction
+    private double PositionOffset => VoteDifference * 1.2;
 
     protected override async Task OnInitializedAsync()
     {
@@ -125,7 +130,6 @@
             await _gameHubConnection.StartAsync();
             await _gameHubConnection.InvokeAsync("AddToListenerGroup");
 
-            // Start spawning monsters
             StartMonsterSpawnTimer();
         }
         catch (Exception ex)
@@ -143,48 +147,6 @@
         InvokeAsync(StateHasChanged);
     }
 
-    // Start the monster spawn loop
-
-        // OLD METHOD:
-        /*private void StartMonsterSpawn()
-            {
-            Task.Run(async () =>
-                {
-                while (true)
-                {
-                await Task.Delay(5000); 
-                RandomizeMonster();
-                RandomizeDecoy();
-                IsMonsterDefeated = false;
-                IsStunned = false;
-                SuccessMessage = string.Empty;
-                InvokeAsync(StateHasChanged);
-        }
-    });
-    }*/
-    
-    /*private async Task StartMonsterSpawn()
-    {
-        while (true)
-        {
-            // Delay first to avoid immediate monster spawn
-            monsterSpawnTimer = new System.Timers.Timer(5000);
-            monsterSpawnTimer.Elapsed += async (sender, e) =>
-            {}
-            await InvokeAsync(() =>
-            {
-                RandomizeMonster();
-                RandomizeDecoy();
-                IsMonsterDefeated = false;
-                IsStunned = false;
-                SuccessMessage = string.Empty;
-
-                // update the UI
-                StateHasChanged();
-            });
-        }
-    }*/
-    // NEW METHOD:
     private void StartMonsterSpawnTimer()
     {
         _monsterSpawnTimer = new System.Timers.Timer(2000); 
@@ -207,8 +169,6 @@
         _monsterSpawnTimer.Start();
     }
 
-
-    // Randomize the monster image and placement
     private void RandomizeMonster()
     {
         var buttons = new[] { "A", "B", "C" };
@@ -217,12 +177,10 @@
         MonsterMessage = $"A monster appears above button {CorrectButton}!";
     }
 
-    // Randomize the decoy monster appearance and position
     private void RandomizeDecoy()
     {
         ShowDecoyMonster = new Random().Next(0, 3) == 0;
 
-        // Ensure the decoy monster does not appear in the same position as the real monster
         double monsterPosition = GetMonsterPosition();
         double decoyPosition;
 
@@ -236,37 +194,32 @@
 
     }
 
-    // Calculate monster position above the correct button
     private double GetMonsterPosition()
     {
         return CorrectButton switch
         {
-            "A" => 20, // Position above button A
-            "B" => 50, // Position above button B
-            "C" => 80, // Position above button C
-            _ => 50    // Default to center
+            "A" => 20, 
+            "B" => 50, 
+            "C" => 80, 
+            _ => 50    
         };
     }
 
-    // Calculate decoy monster position (random)
     private double GetDecoyPosition()
     {
         return double.Parse(DecoyPosition);
     }
 
-    // Handle button click to fight the monster
     private async Task ButtonClicked(string button)
     {
         if (button == CorrectButton)
         {
-            // Correct button clicked, monster defeated
             IsMonsterDefeated = true;
             SuccessMessage = "You successfully struck the monster and got to the ballot box! That's a vote for your candidate!";
             await SubmitVote();
         }
         else
         {
-            // Wrong button clicked, player is stunned
             IsStunned = true;
             await Task.Delay(StunDuration);
             IsStunned = false;
@@ -274,7 +227,6 @@
         await InvokeAsync(StateHasChanged);
     }
 
-    // Submit a vote after monster is defeated
     private async Task SubmitVote()
     {
         if (_gameHubConnection is not null)
@@ -300,7 +252,6 @@
         }
     }
 
-    // Handle keypresses for A, S, D keys to correspond to buttons
     private async Task HandleKeyPress(KeyboardEventArgs e)
     {
         switch (e.Key)
@@ -321,6 +272,20 @@
 
 <!-- Styles -->
 <style>
+    .game-area {
+        position: relative;
+        width: 100%;
+        height: 200px;
+    }
+
+    .team, .rope {
+        position: absolute;
+        transition: left 0.5s ease-in-out;
+    }
+
+        .team img, .rope img {
+            width: 100px; 
+        }
     .monster-area {
         margin-top: 2rem;
         height: 200px;
