@@ -92,6 +92,7 @@
     // Vote counts
     private int TeamAVotes { get; set; }
     private int TeamBVotes { get; set; }
+    private bool HasVoted { get; set; } = false;
 
     // Player's team selection
     private string PlayerTeam { get; set; } = "A";
@@ -121,7 +122,7 @@
     private System.Timers.Timer _monsterSpawnTimer;
 
     private int VoteDifference => TeamAVotes - TeamBVotes;
-    private double PositionOffset => VoteDifference * 1.2;
+    private double PositionOffset => -VoteDifference * 1.2;
 
     protected override async Task OnInitializedAsync()
     {
@@ -157,6 +158,8 @@
 
 
 
+
+
     private void OnGameStateUpdate(TugGameEventArgs args)
     {
         TeamAVotes = args.TeamA;
@@ -177,7 +180,6 @@
                 IsStunned = false;
                 SuccessMessage = string.Empty;
 
-                // Update the UI
                 StateHasChanged();
             });
         };
@@ -186,8 +188,38 @@
         _monsterSpawnTimer.Start();
     }
 
+    private async Task ButtonClicked(string button)
+    {
+        if (IsMonsterDefeated || HasVoted)
+        {
+            // If monster is already defeated or player has already voted, do nothing
+            return;
+        }
+
+        if (button == CorrectButton)
+        {
+            // Correct button clicked, monster defeated
+            IsMonsterDefeated = true;
+            SuccessMessage = "You successfully struck the monster and got to the ballot box! That's a vote for your candidate!";
+            await SubmitVote(); // Only one vote allowed per monster
+            HasVoted = true; // Mark that the player has voted
+        }
+        else
+        {
+            // Wrong button clicked, player is stunned
+            IsStunned = true;
+            await Task.Delay(StunDuration);
+            IsStunned = false;
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+
+
     private void RandomizeMonster()
     {
+        HasVoted = false;
         var buttons = new[] { "A", "B", "C" };
         CorrectButton = buttons[new Random().Next(0, buttons.Length)];
         MonsterImage = MonsterImages[new Random().Next(0, MonsterImages.Length)];
@@ -227,7 +259,9 @@
         return double.Parse(DecoyPosition);
     }
 
-    private async Task ButtonClicked(string button)
+
+
+    /* private async Task ButtonClicked(string button)
     {
         if (button == CorrectButton)
         {
@@ -242,7 +276,7 @@
             IsStunned = false;
         }
         await InvokeAsync(StateHasChanged);
-    }
+    } */
 
     private async Task SubmitVote()
     {
