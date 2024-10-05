@@ -57,22 +57,24 @@
 
 
 @code {
+    // HubConnection for SignalR communication
     HubConnection? _gameHubConnection;
-
+    // Team selection
     public bool OpenDialog { get; set; }
-
+    //Vote counts for each team
     public string? DialogMessage { get; set; }
-
+    // Calculate the vote difference to shift the entire group (Team A, Rope, Team B)
     public string? Team { get; set; }
-
+    // Vote counts for each team
     public int TeamA { get; set; }
-
+    // Vote counts for each team
     public int TeamB { get; set; }
-
+    // Use the vote difference to shift the entire group left or right
     public bool IsPlaying { get; set; }
-
+    // ======= connect to the SignalR hub and register the listener =======
     protected override async Task OnInitializedAsync()
     {
+        // Connect to the SignalR hub
         var gameStateUrl = _nav.ToAbsoluteUri("/tug-game");
         _gameHubConnection = new HubConnectionBuilder()
         .WithUrl(gameStateUrl)
