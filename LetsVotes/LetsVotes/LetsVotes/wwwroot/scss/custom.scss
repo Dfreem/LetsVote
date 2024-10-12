@@ -16,5 +16,7 @@ $theme-colors: map-merge-multiple($blues, $indigos, $purples, $pinks, $reds, $or
 
 @import "components/toast";
 
+@import "pages/game";
+
 //$utilities: map-merge( $utilities, ( "color": map-merge( map-get($utilities, "color"), ( values: map-merge( map-get(map-get($utilities, "text-color"), "values"), ( $theme-colors ))))));
 @import "../lib/bootstrap/scss/utilities/_api.scss";

@@ -1,0 +1,23 @@
+﻿
+@for $i from 1% through 100% {
+    .w-#{i} {
+        min-width: #{$i};
+        max-width: #{$i};
+    }
+
+    .left-#{$i} {
+        left: #{$i};
+    }
+
+    .right-#{$i} {
+        right: #{$i};
+    }
+}
+
+.position-sticky {
+    position: sticky !important;
+}
+
+.sticky-bottom {
+
+}
