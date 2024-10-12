@@ -4468,6 +4468,1310 @@
   text-decoration-color: RGBA(var(--bs-emphasis-color-rgb), var(--bs-link-underline-opacity, 0.75)) !important;
 }
 
+.w-i {
+  min-width: calc(1 * 1%);
+  max-width: calc(1 * 1%);
+}
+
+.left-1 {
+  left: calc(1 * 1%);
+}
+
+.right-1 {
+  right: calc(1 * 1%);
+}
+
+.w-i {
+  min-width: calc(2 * 1%);
+  max-width: calc(2 * 1%);
+}
+
+.left-2 {
+  left: calc(2 * 1%);
+}
+
+.right-2 {
+  right: calc(2 * 1%);
+}
+
+.w-i {
+  min-width: calc(3 * 1%);
+  max-width: calc(3 * 1%);
+}
+
+.left-3 {
+  left: calc(3 * 1%);
+}
+
+.right-3 {
+  right: calc(3 * 1%);
+}
+
+.w-i {
+  min-width: calc(4 * 1%);
+  max-width: calc(4 * 1%);
+}
+
+.left-4 {
+  left: calc(4 * 1%);
+}
+
+.right-4 {
+  right: calc(4 * 1%);
+}
+
+.w-i {
+  min-width: calc(5 * 1%);
+  max-width: calc(5 * 1%);
+}
+
+.left-5 {
+  left: calc(5 * 1%);
+}
+
+.right-5 {
+  right: calc(5 * 1%);
+}
+
+.w-i {
+  min-width: calc(6 * 1%);
+  max-width: calc(6 * 1%);
+}
+
+.left-6 {
+  left: calc(6 * 1%);
+}
+
+.right-6 {
+  right: calc(6 * 1%);
+}
+
+.w-i {
+  min-width: calc(7 * 1%);
+  max-width: calc(7 * 1%);
+}
+
+.left-7 {
+  left: calc(7 * 1%);
+}
+
+.right-7 {
+  right: calc(7 * 1%);
+}
+
+.w-i {
+  min-width: calc(8 * 1%);
+  max-width: calc(8 * 1%);
+}
+
+.left-8 {
+  left: calc(8 * 1%);
+}
+
+.right-8 {
+  right: calc(8 * 1%);
+}
+
+.w-i {
+  min-width: calc(9 * 1%);
+  max-width: calc(9 * 1%);
+}
+
+.left-9 {
+  left: calc(9 * 1%);
+}
+
+.right-9 {
+  right: calc(9 * 1%);
+}
+
+.w-i {
+  min-width: calc(10 * 1%);
+  max-width: calc(10 * 1%);
+}
+
+.left-10 {
+  left: calc(10 * 1%);
+}
+
+.right-10 {
+  right: calc(10 * 1%);
+}
+
+.w-i {
+  min-width: calc(11 * 1%);
+  max-width: calc(11 * 1%);
+}
+
+.left-11 {
+  left: calc(11 * 1%);
+}
+
+.right-11 {
+  right: calc(11 * 1%);
+}
+
+.w-i {
+  min-width: calc(12 * 1%);
+  max-width: calc(12 * 1%);
+}
+
+.left-12 {
+  left: calc(12 * 1%);
+}
+
+.right-12 {
+  right: calc(12 * 1%);
+}
+
+.w-i {
+  min-width: calc(13 * 1%);
+  max-width: calc(13 * 1%);
+}
+
+.left-13 {
+  left: calc(13 * 1%);
+}
+
+.right-13 {
+  right: calc(13 * 1%);
+}
+
+.w-i {
+  min-width: calc(14 * 1%);
+  max-width: calc(14 * 1%);
+}
+
+.left-14 {
+  left: calc(14 * 1%);
+}
+
+.right-14 {
+  right: calc(14 * 1%);
+}
+
+.w-i {
+  min-width: calc(15 * 1%);
+  max-width: calc(15 * 1%);
+}
+
+.left-15 {
+  left: calc(15 * 1%);
+}
+
+.right-15 {
+  right: calc(15 * 1%);
+}
+
+.w-i {
+  min-width: calc(16 * 1%);
+  max-width: calc(16 * 1%);
+}
+
+.left-16 {
+  left: calc(16 * 1%);
+}
+
+.right-16 {
+  right: calc(16 * 1%);
+}
+
+.w-i {
+  min-width: calc(17 * 1%);
+  max-width: calc(17 * 1%);
+}
+
+.left-17 {
+  left: calc(17 * 1%);
+}
+
+.right-17 {
+  right: calc(17 * 1%);
+}
+
+.w-i {
+  min-width: calc(18 * 1%);
+  max-width: calc(18 * 1%);
+}
+
+.left-18 {
+  left: calc(18 * 1%);
+}
+
+.right-18 {
+  right: calc(18 * 1%);
+}
+
+.w-i {
+  min-width: calc(19 * 1%);
+  max-width: calc(19 * 1%);
+}
+
+.left-19 {
+  left: calc(19 * 1%);
+}
+
+.right-19 {
+  right: calc(19 * 1%);
+}
+
+.w-i {
+  min-width: calc(20 * 1%);
+  max-width: calc(20 * 1%);
+}
+
+.left-20 {
+  left: calc(20 * 1%);
+}
+
+.right-20 {
+  right: calc(20 * 1%);
+}
+
+.w-i {
+  min-width: calc(21 * 1%);
+  max-width: calc(21 * 1%);
+}
+
+.left-21 {
+  left: calc(21 * 1%);
+}
+
+.right-21 {
+  right: calc(21 * 1%);
+}
+
+.w-i {
+  min-width: calc(22 * 1%);
+  max-width: calc(22 * 1%);
+}
+
+.left-22 {
+  left: calc(22 * 1%);
+}
+
+.right-22 {
+  right: calc(22 * 1%);
+}
+
+.w-i {
+  min-width: calc(23 * 1%);
+  max-width: calc(23 * 1%);
+}
+
+.left-23 {
+  left: calc(23 * 1%);
+}
+
+.right-23 {
+  right: calc(23 * 1%);
+}
+
+.w-i {
+  min-width: calc(24 * 1%);
+  max-width: calc(24 * 1%);
+}
+
+.left-24 {
+  left: calc(24 * 1%);
+}
+
+.right-24 {
+  right: calc(24 * 1%);
+}
+
+.w-i {
+  min-width: calc(25 * 1%);
+  max-width: calc(25 * 1%);
+}
+
+.left-25 {
+  left: calc(25 * 1%);
+}
+
+.right-25 {
+  right: calc(25 * 1%);
+}
+
+.w-i {
+  min-width: calc(26 * 1%);
+  max-width: calc(26 * 1%);
+}
+
+.left-26 {
+  left: calc(26 * 1%);
+}
+
+.right-26 {
+  right: calc(26 * 1%);
+}
+
+.w-i {
+  min-width: calc(27 * 1%);
+  max-width: calc(27 * 1%);
+}
+
+.left-27 {
+  left: calc(27 * 1%);
+}
+
+.right-27 {
+  right: calc(27 * 1%);
+}
+
+.w-i {
+  min-width: calc(28 * 1%);
+  max-width: calc(28 * 1%);
+}
+
+.left-28 {
+  left: calc(28 * 1%);
+}
+
+.right-28 {
+  right: calc(28 * 1%);
+}
+
+.w-i {
+  min-width: calc(29 * 1%);
+  max-width: calc(29 * 1%);
+}
+
+.left-29 {
+  left: calc(29 * 1%);
+}
+
+.right-29 {
+  right: calc(29 * 1%);
+}
+
+.w-i {
+  min-width: calc(30 * 1%);
+  max-width: calc(30 * 1%);
+}
+
+.left-30 {
+  left: calc(30 * 1%);
+}
+
+.right-30 {
+  right: calc(30 * 1%);
+}
+
+.w-i {
+  min-width: calc(31 * 1%);
+  max-width: calc(31 * 1%);
+}
+
+.left-31 {
+  left: calc(31 * 1%);
+}
+
+.right-31 {
+  right: calc(31 * 1%);
+}
+
+.w-i {
+  min-width: calc(32 * 1%);
+  max-width: calc(32 * 1%);
+}
+
+.left-32 {
+  left: calc(32 * 1%);
+}
+
+.right-32 {
+  right: calc(32 * 1%);
+}
+
+.w-i {
+  min-width: calc(33 * 1%);
+  max-width: calc(33 * 1%);
+}
+
+.left-33 {
+  left: calc(33 * 1%);
+}
+
+.right-33 {
+  right: calc(33 * 1%);
+}
+
+.w-i {
+  min-width: calc(34 * 1%);
+  max-width: calc(34 * 1%);
+}
+
+.left-34 {
+  left: calc(34 * 1%);
+}
+
+.right-34 {
+  right: calc(34 * 1%);
+}
+
+.w-i {
+  min-width: calc(35 * 1%);
+  max-width: calc(35 * 1%);
+}
+
+.left-35 {
+  left: calc(35 * 1%);
+}
+
+.right-35 {
+  right: calc(35 * 1%);
+}
+
+.w-i {
+  min-width: calc(36 * 1%);
+  max-width: calc(36 * 1%);
+}
+
+.left-36 {
+  left: calc(36 * 1%);
+}
+
+.right-36 {
+  right: calc(36 * 1%);
+}
+
+.w-i {
+  min-width: calc(37 * 1%);
+  max-width: calc(37 * 1%);
+}
+
+.left-37 {
+  left: calc(37 * 1%);
+}
+
+.right-37 {
+  right: calc(37 * 1%);
+}
+
+.w-i {
+  min-width: calc(38 * 1%);
+  max-width: calc(38 * 1%);
+}
+
+.left-38 {
+  left: calc(38 * 1%);
+}
+
+.right-38 {
+  right: calc(38 * 1%);
+}
+
+.w-i {
+  min-width: calc(39 * 1%);
+  max-width: calc(39 * 1%);
+}
+
+.left-39 {
+  left: calc(39 * 1%);
+}
+
+.right-39 {
+  right: calc(39 * 1%);
+}
+
+.w-i {
+  min-width: calc(40 * 1%);
+  max-width: calc(40 * 1%);
+}
+
+.left-40 {
+  left: calc(40 * 1%);
+}
+
+.right-40 {
+  right: calc(40 * 1%);
+}
+
+.w-i {
+  min-width: calc(41 * 1%);
+  max-width: calc(41 * 1%);
+}
+
+.left-41 {
+  left: calc(41 * 1%);
+}
+
+.right-41 {
+  right: calc(41 * 1%);
+}
+
+.w-i {
+  min-width: calc(42 * 1%);
+  max-width: calc(42 * 1%);
+}
+
+.left-42 {
+  left: calc(42 * 1%);
+}
+
+.right-42 {
+  right: calc(42 * 1%);
+}
+
+.w-i {
+  min-width: calc(43 * 1%);
+  max-width: calc(43 * 1%);
+}
+
+.left-43 {
+  left: calc(43 * 1%);
+}
+
+.right-43 {
+  right: calc(43 * 1%);
+}
+
+.w-i {
+  min-width: calc(44 * 1%);
+  max-width: calc(44 * 1%);
+}
+
+.left-44 {
+  left: calc(44 * 1%);
+}
+
+.right-44 {
+  right: calc(44 * 1%);
+}
+
+.w-i {
+  min-width: calc(45 * 1%);
+  max-width: calc(45 * 1%);
+}
+
+.left-45 {
+  left: calc(45 * 1%);
+}
+
+.right-45 {
+  right: calc(45 * 1%);
+}
+
+.w-i {
+  min-width: calc(46 * 1%);
+  max-width: calc(46 * 1%);
+}
+
+.left-46 {
+  left: calc(46 * 1%);
+}
+
+.right-46 {
+  right: calc(46 * 1%);
+}
+
+.w-i {
+  min-width: calc(47 * 1%);
+  max-width: calc(47 * 1%);
+}
+
+.left-47 {
+  left: calc(47 * 1%);
+}
+
+.right-47 {
+  right: calc(47 * 1%);
+}
+
+.w-i {
+  min-width: calc(48 * 1%);
+  max-width: calc(48 * 1%);
+}
+
+.left-48 {
+  left: calc(48 * 1%);
+}
+
+.right-48 {
+  right: calc(48 * 1%);
+}
+
+.w-i {
+  min-width: calc(49 * 1%);
+  max-width: calc(49 * 1%);
+}
+
+.left-49 {
+  left: calc(49 * 1%);
+}
+
+.right-49 {
+  right: calc(49 * 1%);
+}
+
+.w-i {
+  min-width: calc(50 * 1%);
+  max-width: calc(50 * 1%);
+}
+
+.left-50 {
+  left: calc(50 * 1%);
+}
+
+.right-50 {
+  right: calc(50 * 1%);
+}
+
+.w-i {
+  min-width: calc(51 * 1%);
+  max-width: calc(51 * 1%);
+}
+
+.left-51 {
+  left: calc(51 * 1%);
+}
+
+.right-51 {
+  right: calc(51 * 1%);
+}
+
+.w-i {
+  min-width: calc(52 * 1%);
+  max-width: calc(52 * 1%);
+}
+
+.left-52 {
+  left: calc(52 * 1%);
+}
+
+.right-52 {
+  right: calc(52 * 1%);
+}
+
+.w-i {
+  min-width: calc(53 * 1%);
+  max-width: calc(53 * 1%);
+}
+
+.left-53 {
+  left: calc(53 * 1%);
+}
+
+.right-53 {
+  right: calc(53 * 1%);
+}
+
+.w-i {
+  min-width: calc(54 * 1%);
+  max-width: calc(54 * 1%);
+}
+
+.left-54 {
+  left: calc(54 * 1%);
+}
+
+.right-54 {
+  right: calc(54 * 1%);
+}
+
+.w-i {
+  min-width: calc(55 * 1%);
+  max-width: calc(55 * 1%);
+}
+
+.left-55 {
+  left: calc(55 * 1%);
+}
+
+.right-55 {
+  right: calc(55 * 1%);
+}
+
+.w-i {
+  min-width: calc(56 * 1%);
+  max-width: calc(56 * 1%);
+}
+
+.left-56 {
+  left: calc(56 * 1%);
+}
+
+.right-56 {
+  right: calc(56 * 1%);
+}
+
+.w-i {
+  min-width: calc(57 * 1%);
+  max-width: calc(57 * 1%);
+}
+
+.left-57 {
+  left: calc(57 * 1%);
+}
+
+.right-57 {
+  right: calc(57 * 1%);
+}
+
+.w-i {
+  min-width: calc(58 * 1%);
+  max-width: calc(58 * 1%);
+}
+
+.left-58 {
+  left: calc(58 * 1%);
+}
+
+.right-58 {
+  right: calc(58 * 1%);
+}
+
+.w-i {
+  min-width: calc(59 * 1%);
+  max-width: calc(59 * 1%);
+}
+
+.left-59 {
+  left: calc(59 * 1%);
+}
+
+.right-59 {
+  right: calc(59 * 1%);
+}
+
+.w-i {
+  min-width: calc(60 * 1%);
+  max-width: calc(60 * 1%);
+}
+
+.left-60 {
+  left: calc(60 * 1%);
+}
+
+.right-60 {
+  right: calc(60 * 1%);
+}
+
+.w-i {
+  min-width: calc(61 * 1%);
+  max-width: calc(61 * 1%);
+}
+
+.left-61 {
+  left: calc(61 * 1%);
+}
+
+.right-61 {
+  right: calc(61 * 1%);
+}
+
+.w-i {
+  min-width: calc(62 * 1%);
+  max-width: calc(62 * 1%);
+}
+
+.left-62 {
+  left: calc(62 * 1%);
+}
+
+.right-62 {
+  right: calc(62 * 1%);
+}
+
+.w-i {
+  min-width: calc(63 * 1%);
+  max-width: calc(63 * 1%);
+}
+
+.left-63 {
+  left: calc(63 * 1%);
+}
+
+.right-63 {
+  right: calc(63 * 1%);
+}
+
+.w-i {
+  min-width: calc(64 * 1%);
+  max-width: calc(64 * 1%);
+}
+
+.left-64 {
+  left: calc(64 * 1%);
+}
+
+.right-64 {
+  right: calc(64 * 1%);
+}
+
+.w-i {
+  min-width: calc(65 * 1%);
+  max-width: calc(65 * 1%);
+}
+
+.left-65 {
+  left: calc(65 * 1%);
+}
+
+.right-65 {
+  right: calc(65 * 1%);
+}
+
+.w-i {
+  min-width: calc(66 * 1%);
+  max-width: calc(66 * 1%);
+}
+
+.left-66 {
+  left: calc(66 * 1%);
+}
+
+.right-66 {
+  right: calc(66 * 1%);
+}
+
+.w-i {
+  min-width: calc(67 * 1%);
+  max-width: calc(67 * 1%);
+}
+
+.left-67 {
+  left: calc(67 * 1%);
+}
+
+.right-67 {
+  right: calc(67 * 1%);
+}
+
+.w-i {
+  min-width: calc(68 * 1%);
+  max-width: calc(68 * 1%);
+}
+
+.left-68 {
+  left: calc(68 * 1%);
+}
+
+.right-68 {
+  right: calc(68 * 1%);
+}
+
+.w-i {
+  min-width: calc(69 * 1%);
+  max-width: calc(69 * 1%);
+}
+
+.left-69 {
+  left: calc(69 * 1%);
+}
+
+.right-69 {
+  right: calc(69 * 1%);
+}
+
+.w-i {
+  min-width: calc(70 * 1%);
+  max-width: calc(70 * 1%);
+}
+
+.left-70 {
+  left: calc(70 * 1%);
+}
+
+.right-70 {
+  right: calc(70 * 1%);
+}
+
+.w-i {
+  min-width: calc(71 * 1%);
+  max-width: calc(71 * 1%);
+}
+
+.left-71 {
+  left: calc(71 * 1%);
+}
+
+.right-71 {
+  right: calc(71 * 1%);
+}
+
+.w-i {
+  min-width: calc(72 * 1%);
+  max-width: calc(72 * 1%);
+}
+
+.left-72 {
+  left: calc(72 * 1%);
+}
+
+.right-72 {
+  right: calc(72 * 1%);
+}
+
+.w-i {
+  min-width: calc(73 * 1%);
+  max-width: calc(73 * 1%);
+}
+
+.left-73 {
+  left: calc(73 * 1%);
+}
+
+.right-73 {
+  right: calc(73 * 1%);
+}
+
+.w-i {
+  min-width: calc(74 * 1%);
+  max-width: calc(74 * 1%);
+}
+
+.left-74 {
+  left: calc(74 * 1%);
+}
+
+.right-74 {
+  right: calc(74 * 1%);
+}
+
+.w-i {
+  min-width: calc(75 * 1%);
+  max-width: calc(75 * 1%);
+}
+
+.left-75 {
+  left: calc(75 * 1%);
+}
+
+.right-75 {
+  right: calc(75 * 1%);
+}
+
+.w-i {
+  min-width: calc(76 * 1%);
+  max-width: calc(76 * 1%);
+}
+
+.left-76 {
+  left: calc(76 * 1%);
+}
+
+.right-76 {
+  right: calc(76 * 1%);
+}
+
+.w-i {
+  min-width: calc(77 * 1%);
+  max-width: calc(77 * 1%);
+}
+
+.left-77 {
+  left: calc(77 * 1%);
+}
+
+.right-77 {
+  right: calc(77 * 1%);
+}
+
+.w-i {
+  min-width: calc(78 * 1%);
+  max-width: calc(78 * 1%);
+}
+
+.left-78 {
+  left: calc(78 * 1%);
+}
+
+.right-78 {
+  right: calc(78 * 1%);
+}
+
+.w-i {
+  min-width: calc(79 * 1%);
+  max-width: calc(79 * 1%);
+}
+
+.left-79 {
+  left: calc(79 * 1%);
+}
+
+.right-79 {
+  right: calc(79 * 1%);
+}
+
+.w-i {
+  min-width: calc(80 * 1%);
+  max-width: calc(80 * 1%);
+}
+
+.left-80 {
+  left: calc(80 * 1%);
+}
+
+.right-80 {
+  right: calc(80 * 1%);
+}
+
+.w-i {
+  min-width: calc(81 * 1%);
+  max-width: calc(81 * 1%);
+}
+
+.left-81 {
+  left: calc(81 * 1%);
+}
+
+.right-81 {
+  right: calc(81 * 1%);
+}
+
+.w-i {
+  min-width: calc(82 * 1%);
+  max-width: calc(82 * 1%);
+}
+
+.left-82 {
+  left: calc(82 * 1%);
+}
+
+.right-82 {
+  right: calc(82 * 1%);
+}
+
+.w-i {
+  min-width: calc(83 * 1%);
+  max-width: calc(83 * 1%);
+}
+
+.left-83 {
+  left: calc(83 * 1%);
+}
+
+.right-83 {
+  right: calc(83 * 1%);
+}
+
+.w-i {
+  min-width: calc(84 * 1%);
+  max-width: calc(84 * 1%);
+}
+
+.left-84 {
+  left: calc(84 * 1%);
+}
+
+.right-84 {
+  right: calc(84 * 1%);
+}
+
+.w-i {
+  min-width: calc(85 * 1%);
+  max-width: calc(85 * 1%);
+}
+
+.left-85 {
+  left: calc(85 * 1%);
+}
+
+.right-85 {
+  right: calc(85 * 1%);
+}
+
+.w-i {
+  min-width: calc(86 * 1%);
+  max-width: calc(86 * 1%);
+}
+
+.left-86 {
+  left: calc(86 * 1%);
+}
+
+.right-86 {
+  right: calc(86 * 1%);
+}
+
+.w-i {
+  min-width: calc(87 * 1%);
+  max-width: calc(87 * 1%);
+}
+
+.left-87 {
+  left: calc(87 * 1%);
+}
+
+.right-87 {
+  right: calc(87 * 1%);
+}
+
+.w-i {
+  min-width: calc(88 * 1%);
+  max-width: calc(88 * 1%);
+}
+
+.left-88 {
+  left: calc(88 * 1%);
+}
+
+.right-88 {
+  right: calc(88 * 1%);
+}
+
+.w-i {
+  min-width: calc(89 * 1%);
+  max-width: calc(89 * 1%);
+}
+
+.left-89 {
+  left: calc(89 * 1%);
+}
+
+.right-89 {
+  right: calc(89 * 1%);
+}
+
+.w-i {
+  min-width: calc(90 * 1%);
+  max-width: calc(90 * 1%);
+}
+
+.left-90 {
+  left: calc(90 * 1%);
+}
+
+.right-90 {
+  right: calc(90 * 1%);
+}
+
+.w-i {
+  min-width: calc(91 * 1%);
+  max-width: calc(91 * 1%);
+}
+
+.left-91 {
+  left: calc(91 * 1%);
+}
+
+.right-91 {
+  right: calc(91 * 1%);
+}
+
+.w-i {
+  min-width: calc(92 * 1%);
+  max-width: calc(92 * 1%);
+}
+
+.left-92 {
+  left: calc(92 * 1%);
+}
+
+.right-92 {
+  right: calc(92 * 1%);
+}
+
+.w-i {
+  min-width: calc(93 * 1%);
+  max-width: calc(93 * 1%);
+}
+
+.left-93 {
+  left: calc(93 * 1%);
+}
+
+.right-93 {
+  right: calc(93 * 1%);
+}
+
+.w-i {
+  min-width: calc(94 * 1%);
+  max-width: calc(94 * 1%);
+}
+
+.left-94 {
+  left: calc(94 * 1%);
+}
+
+.right-94 {
+  right: calc(94 * 1%);
+}
+
+.w-i {
+  min-width: calc(95 * 1%);
+  max-width: calc(95 * 1%);
+}
+
+.left-95 {
+  left: calc(95 * 1%);
+}
+
+.right-95 {
+  right: calc(95 * 1%);
+}
+
+.w-i {
+  min-width: calc(96 * 1%);
+  max-width: calc(96 * 1%);
+}
+
+.left-96 {
+  left: calc(96 * 1%);
+}
+
+.right-96 {
+  right: calc(96 * 1%);
+}
+
+.w-i {
+  min-width: calc(97 * 1%);
+  max-width: calc(97 * 1%);
+}
+
+.left-97 {
+  left: calc(97 * 1%);
+}
+
+.right-97 {
+  right: calc(97 * 1%);
+}
+
+.w-i {
+  min-width: calc(98 * 1%);
+  max-width: calc(98 * 1%);
+}
+
+.left-98 {
+  left: calc(98 * 1%);
+}
+
+.right-98 {
+  right: calc(98 * 1%);
+}
+
+.w-i {
+  min-width: calc(99 * 1%);
+  max-width: calc(99 * 1%);
+}
+
+.left-99 {
+  left: calc(99 * 1%);
+}
+
+.right-99 {
+  right: calc(99 * 1%);
+}
+
+.w-i {
+  min-width: calc(100 * 1%);
+  max-width: calc(100 * 1%);
+}
+
+.left-100 {
+  left: calc(100 * 1%);
+}
+
+.right-100 {
+  right: calc(100 * 1%);
+}
+
+.position-sticky {
+  position: sticky !important;
+}
+
 .toastr {
   position: absolute;
   min-width: 20em;

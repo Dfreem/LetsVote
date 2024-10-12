@@ -13,6 +13,7 @@ $theme-colors: map-merge-multiple($blues, $indigos, $purples, $pinks, $reds, $or
 @import "../lib/bootstrap/scss/utilities";
 @import "../lib/bootstrap/scss/buttons";
 @import "../lib/bootstrap/scss/helpers/colored-links";
+@import "utility";
 
 @import "components/toast";
 

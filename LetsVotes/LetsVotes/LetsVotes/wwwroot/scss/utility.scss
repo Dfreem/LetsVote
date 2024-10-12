@@ -1,16 +1,16 @@
 ﻿
-@for $i from 1% through 100% {
+@for $i from 1 through 100 {
     .w-#{i} {
-        min-width: #{$i};
-        max-width: #{$i};
+        min-width: calc(#{$i} * 1%);
+        max-width: calc(#{$i} * 1%);
     }
 
     .left-#{$i} {
-        left: #{$i};
+        left: calc(#{$i} * 1%);
     }
 
     .right-#{$i} {
-        right: #{$i};
+        right:  calc(#{$i} * 1%);
     }
 }
 
