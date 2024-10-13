@@ -1,0 +1,245 @@
+﻿@page "/game"
+@using LetsVote.Client.Components
+@using LetsVote.Client.Services.Toast
+@using LetsVote.Shared.DTO
+@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager _nav
+@inject IToastService _toast
+
+
+<!-- HTML Section -->
+<div class="container text-center my-4">
+    <label for="teamSelect">Choose your team:</label>
+    <select id="teamSelect" @onchange="OnTeamSelected" class="form-control">
+        <option value="A" selected="@((PlayerTeam == "A") ? "selected" : null)">Team A</option>
+        <option value="B" selected="@((PlayerTeam == "B") ? "selected" : null)">Team B</option>
+    </select>
+</div>
+
+<div class="container text-center" @onkeydown="HandleKeyPress" tabindex="0">
+    <h1>Voting Game</h1>
+
+    <div class="game-area my-4 position-relative">
+        <!-- Team A on the left -->
+        <div class="team team-a" style="left:@TeamAStyle;">
+            <img src="images/teamA.png" alt="Team A" class="team-image img-fluid" />
+            <p>Team A: @TeamAVotes</p>
+        </div>
+
+        <!-- Rope between Team A and Team B -->
+        <div class="rope" style="left:@RopeLeft; width:@RopeWidth;"></div>
+
+        <!-- Team B on the right -->
+        <div class="team team-b" style="left:@TeamBStyle;">
+            <img src="images/teamB.png" alt="Team B" class="team-image img-fluid" />
+            <p>Team B: @TeamBVotes</p>
+        </div>
+    </div>
+
+    <!-- Monster Area -->
+    <div class="monster-area">
+        @if (!IsStunned && !IsMonsterDefeated)
+        {
+            <div class="monster-image" style="left:@(GetMonsterPosition())%;">
+                <img src="@MonsterImage" alt="Monster" />
+            </div>
+        }
+        else if (IsStunned)
+        {
+            <p>You're stunned! Wait for a few seconds...</p>
+        }
+        else if (IsMonsterDefeated)
+        {
+            <p>@SuccessMessage</p>
+        }
+    </div>
+
+    <div class="button-area my-4">
+        <button class="btn btn-danger" @onclick='() => ButtonClicked("A")' disabled="@IsStunned">A</button>
+        <button class="btn btn-warning" @onclick='() => ButtonClicked("B")' disabled="@IsStunned">B</button>
+        <button class="btn btn-success" @onclick='() => ButtonClicked("C")' disabled="@IsStunned">C</button>
+    </div>
+
+    <div class="vote-counts my-4">
+        <p>Team A Votes: @TeamAVotes</p>
+        <p>Team B Votes: @TeamBVotes</p>
+    </div>
+</div>
+
+@code {
+    // SignalR Hub connection
+    private HubConnection? _gameHubConnection;
+
+    // Vote counts
+    private int TeamAVotes { get; set; }
+    private int TeamBVotes { get; set; }
+    private bool HasVoted { get; set; } = false;
+
+    // Player's team selection
+    private string PlayerTeam { get; set; } = "A";
+
+    // Calculate position offset based on vote difference, ensuring that both teams move together
+    private double PositionOffset => (TeamAVotes - TeamBVotes) * 0.5;
+
+    // Style for Team A, Team B, and Rope
+    private string TeamAStyle => $"{20 + PositionOffset}%"; 
+    private string TeamBStyle => $"{80 + PositionOffset}%"; 
+    private string RopeLeft => $"{20 + PositionOffset}%";  
+    private string RopeWidth => $"{60}%"; 
+
+    // Monster-related variables
+    private string MonsterImage { get; set; } = "images/monster.png";
+    private string[] MonsterImages = { "images/monster.png", "images/monster2.png" };
+    private string CorrectButton { get; set; } = "B";
+    private bool IsMonsterDefeated = false;
+    private bool IsStunned = false;
+    private string SuccessMessage = string.Empty;
+
+    // Decoy monster variables
+    private bool ShowDecoyMonster { get; set; } = false;
+    private string DecoyPosition { get; set; } = "0";
+
+    // Timer for monster spawning
+    private System.Timers.Timer _monsterSpawnTimer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Connect to SignalR hub
+        var gameStateUrl = _nav.ToAbsoluteUri("/tug-game");
+        _gameHubConnection = new HubConnectionBuilder()
+            .WithUrl(gameStateUrl)
+            .WithAutomaticReconnect()
+            .Build();
+
+        _gameHubConnection.On<TugGameEventArgs>("RecieveGameState", OnGameStateUpdate);
+
+        try
+        {
+            await _gameHubConnection.StartAsync();
+            await _gameHubConnection.InvokeAsync("AddToListenerGroup");
+
+            StartMonsterSpawnTimer();  
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Connection failed: {ex.Message}");
+        }
+
+        await base.OnInitializedAsync();
+    }
+
+    private void StartMonsterSpawnTimer()
+    {
+        _monsterSpawnTimer = new System.Timers.Timer(1000); 
+        _monsterSpawnTimer.Elapsed += async (sender, e) =>
+        {
+            await InvokeAsync(() =>
+            {
+                RandomizeMonster(); 
+                IsMonsterDefeated = false;
+                HasVoted = false;  
+                SuccessMessage = string.Empty; 
+                IsStunned = false; 
+
+                StateHasChanged(); 
+            });
+        };
+
+        _monsterSpawnTimer.AutoReset = true;
+        _monsterSpawnTimer.Start();
+    }
+
+    private void OnGameStateUpdate(TugGameEventArgs args)
+    {
+        TeamAVotes = args.TeamA;
+        TeamBVotes = args.TeamB;
+        InvokeAsync(StateHasChanged);
+    }
+
+    // Handles team selection from dropdown
+    private async Task OnTeamSelected(ChangeEventArgs e)
+    {
+        PlayerTeam = e.Value?.ToString();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    // Handles button clicks (A, B, C)
+    private async Task ButtonClicked(string button)
+    {
+        if (IsMonsterDefeated || HasVoted)
+        {
+            return; 
+        }
+
+        if (button == CorrectButton)
+        {
+            IsMonsterDefeated = true;
+            SuccessMessage = "You successfully struck the monster and got to the ballot box! That's a vote for your candidate!";
+            await SubmitVote();
+            HasVoted = true;
+        }
+        else
+        {
+            IsStunned = true;
+            await Task.Delay(3000); 
+            IsStunned = false;
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task SubmitVote()
+    {
+        if (_gameHubConnection is not null)
+        {
+            if (PlayerTeam == "A")
+            {
+                await _gameHubConnection.InvokeAsync("TugLeft");
+            }
+            else if (PlayerTeam == "B")
+            {
+                await _gameHubConnection.InvokeAsync("TugRight");
+            }
+        }
+    }
+
+    private void RandomizeMonster()
+    {
+        var buttons = new[] { "A", "B", "C" };
+        CorrectButton = buttons[new Random().Next(0, buttons.Length)];
+        MonsterImage = MonsterImages[new Random().Next(0, MonsterImages.Length)];
+    }
+
+    private double GetMonsterPosition()
+    {
+        return CorrectButton switch
+        {
+            "A" => 10,
+            "B" => 50,
+            "C" => 90,
+            _ => 50
+        };
+    }
+
+    private double GetDecoyPosition()
+    {
+        return double.Parse(DecoyPosition);
+    }
+
+    // Handle key presses for monster fight (A, B, C)
+    private async Task HandleKeyPress(KeyboardEventArgs e)
+    {
+        switch (e.Key)
+        {
+            case "a":
+                await ButtonClicked("A");
+                break;
+            case "s":
+                await ButtonClicked("B");
+                break;
+            case "d":
+                await ButtonClicked("C");
+                break;
+        }
+    }
+}

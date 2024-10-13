@@ -1,0 +1,58 @@
+﻿@import "../variables";
+
+.game-area {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  margin-bottom: 20px;
+}
+
+.team img {
+  width: 100px;
+  height: 150px;
+  object-fit: contain;
+}
+
+.team {
+  position: absolute;
+  top: 30px;
+  transition: left 0.5s ease-in-out;
+}
+
+.rope {
+  position: absolute;
+  top: 80px;
+  height: 50px;
+  background-image: url('../../images/rope.png');
+  background-repeat: repeat-x;
+  background-size: contain;
+}
+
+/* Monster Area Positioned Below the Game */
+.monster-area {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  margin-top: 20px;
+}
+
+/* Position the Monster within the Monster Area */
+.monster-image {
+  position: absolute;
+  top: 30px;
+  transition: left 0.5s ease-in-out;
+}
+
+  .monster-image img {
+    max-width: 80px;
+    height: auto;
+  }
+
+.button-area {
+  display: flex;
+  justify-content: space-around;
+}
+
+.vote-counts {
+  font-size: 1.5rem;
+}

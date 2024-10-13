@@ -1,7 +1,32 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Welcome to Let's Vote Game!</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="container text-center">
+    <h1>Welcome to the Tug of War Voting Game!</h1>
+    <p>
+        Join your team in a live tug of war battle by casting your vote! 
+        Every vote helps pull the rope toward your team's side. The team with the most votes wins!
+    </p>
 
-Welcome to your new app.
+    <!-- Start the Game -->
+    <div class="my-4">
+        <NavLink class="btn btn-primary btn-lg" href="/game">Start Playing</NavLink>
+    </div>
+
+    <!-- Leaderboard Section THESE ARE JUST STAND IN NUMBERS FOR FUTURE FEATURE -->
+    <section class="leaderboard my-5">
+        <h2>Current Standings</h2>
+        <p>Team A: 125 votes | Team B: 100 votes</p> 
+    </section>
+
+    <!-- How to Play Section -->
+    <section class="how-to-play my-5">
+        <h2>How to Play</h2>
+        <ul class="text-start">
+            <li>Vote for your team by clicking the button on the game page.</li>
+            <li>Each vote helps pull the rope toward your team's side.</li>
+            <li>The team with the most votes at the end wins the tug of war!</li>
+        </ul>
+    </section>
+</div>

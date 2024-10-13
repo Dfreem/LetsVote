@@ -1,0 +1,135 @@
+﻿@page "/web-sockets"
+@using LetsVote.Client.Components
+@using LetsVote.Client.Services.Toast
+@using LetsVote.Shared.DTO
+@using Microsoft.AspNetCore.SignalR.Client
+@using System.Timers
+@inject NavigationManager _nav
+@inject IToastService _toast
+
+<Dialog @bind-Open="OpenDialog">
+    <div class="d-flex">
+        <div class="col text-primary mx-auto">
+            @DialogMessage
+        </div>
+    </div>
+</Dialog>
+
+<div class="container">
+    <div class="d-flex mt-5">
+        <div class="col">
+            Game State <br />
+            TeamA: @TeamA <br />
+            TeamB: @TeamB
+
+        </div>
+    </div>
+    @if (Team == null)
+    {
+
+        <div class="d-flex">
+            <div class="col text-nowrap gap-2 mx-auto">
+                <InputSelect @bind-Value="Team">
+                    <option value="">Choose a Team</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                </InputSelect>
+            </div>
+        </div>
+    }
+    @if (IsPlaying)
+    {
+
+        <div class="d-flex">
+            <div class="col text-nowrap gap-2 mx-auto">
+                @if (Team == "A")
+                {
+                    <button @onclick='OnLeft'>Left</button>
+                }
+                else if (Team == "B")
+                {
+                    <button @onclick='OnRight'>Right</button>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+
+@code {
+    // HubConnection for SignalR communication
+    HubConnection? _gameHubConnection;
+    // Team selection
+    public bool OpenDialog { get; set; }
+    //Vote counts for each team
+    public string? DialogMessage { get; set; }
+    // Calculate the vote difference to shift the entire group (Team A, Rope, Team B)
+    public string? Team { get; set; }
+    // Vote counts for each team
+    public int TeamA { get; set; }
+    // Vote counts for each team
+    public int TeamB { get; set; }
+    // Use the vote difference to shift the entire group left or right
+    public bool IsPlaying { get; set; }
+    // ======= connect to the SignalR hub and register the listener =======
+    protected override async Task OnInitializedAsync()
+    {
+        // Connect to the SignalR hub
+        var gameStateUrl = _nav.ToAbsoluteUri("/tug-game");
+        _gameHubConnection = new HubConnectionBuilder()
+        .WithUrl(gameStateUrl)
+        .WithAutomaticReconnect()
+        .WithStatefulReconnect()
+        .Build();
+
+        _gameHubConnection.On<TugGameEventArgs>("RecieveGameState", OnGameStateUpdate);
+        _gameHubConnection.On<GameOverArgs>("GameOver", OnGameOver);
+        await _gameHubConnection.StartAsync();
+        await _gameHubConnection.InvokeAsync("AddToListenerGroup");
+        IsPlaying = true;
+        await base.OnInitializedAsync();
+    }
+
+    public void OnGameStateUpdate(TugGameEventArgs args)
+    {
+        TeamA = args.TeamA;
+        TeamB = args.TeamB;
+        _ = InvokeAsync(StateHasChanged);
+    }
+
+    public void OnGameOver(GameOverArgs args)
+    {
+        IsPlaying = false;
+        DialogMessage = $"Team {args.WinningTeam} Wins!";
+
+        Timer timer = new();
+        timer.Interval = 5000;
+        timer.Elapsed += (sender, args) =>
+        {
+            DialogMessage = null;
+            OpenDialog = false;
+            _ = InvokeAsync(StateHasChanged);
+        };
+
+        OpenDialog = true;
+        _ = InvokeAsync(StateHasChanged);
+        timer.Start();
+    }
+
+    public async Task OnLeft()
+    {
+        if (_gameHubConnection == null)
+            return;
+
+        await _gameHubConnection.InvokeAsync("TugLeft");
+    }
+
+    public async Task OnRight()
+    {
+        if (_gameHubConnection == null)
+            return;
+
+        await _gameHubConnection.InvokeAsync("TugRight");
+    }
+
+}

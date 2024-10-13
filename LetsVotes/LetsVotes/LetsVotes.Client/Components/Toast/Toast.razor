@@ -1,0 +1,65 @@
+﻿@using LetsVote.Client.Services.Toast
+@using Timer = System.Timers.Timer
+
+@inject IToastService _toast
+
+<div class="@ToastClass @PositionClass toastr">
+    <div class="toastr-header">
+        <a class="btn btn-link ms-auto close p-0" aria-label="Close" @onclick='OffToast'><i class="bi bi-x fs-3 p-0"></i></a>
+    </div>
+    <div class="toastr-body text-center pb-1">
+        @ToastMessage
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string ToastMessage { get; set; } = "Thank You!";
+
+    [Parameter]
+    public string ToastClass { get; set; } = "toast-default";
+
+    [Parameter]
+    public ToastPosition Position { get; set; }
+
+    public string PositionClass { get; set; } = "";
+
+    Timer _timer = default!;
+
+    protected override void OnParametersSet()
+    {
+        PositionClass = Position.ToString().Replace(",", "").ToLower();
+        StateHasChanged();
+        base.OnParametersSet();
+    }
+    public void OnToast(Object? sender, ToastEventArgs args)
+    {
+        _timer = new();
+        _timer.Interval = 3000;
+        ToastClass = args.CssClass;
+        ToastMessage = args.Message;
+        _ = InvokeAsync(StateHasChanged);
+        _timer.Elapsed += async (Object? sender, System.Timers.ElapsedEventArgs args) =>
+        {
+            _timer.Stop();
+            await OffToast();
+        };
+        _timer.Start();
+    }
+
+    public async Task OffToast()
+    {
+        ToastClass = "toast-default";
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _toast.ToastEvent += OnToast;
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}

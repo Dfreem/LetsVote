@@ -1,73 +1,23 @@
 ﻿@use "sass:color";
 @import "../lib/bootstrap/scss/functions";
-
-
-// Define color variables
-$primary: #002868; // Navy Blue - Use for primary elements like buttons and headers
-$secondary: #FFB6C1; // Pastel Pink - Use for secondary buttons or accents
-$tertiary: #FFC300; // same as warning - Use for tertiary buttons or accents
-$info: #FFFFFF; // Crisp White - Use for backgrounds or info sections
-$danger: #BF0A30; // Bold Red - Use for error messages or danger alerts
-$warning: #FFC300; // Warm Gold - Use for warning messages or highlights
-
-
-
+@import "variables";
 @import "../lib/bootstrap/scss/_variables";
 @import "../lib/bootstrap/scss/_variables-dark";
 
-// 4. Include any default map overrides here
 $theme-colors: map-merge-multiple($blues, $indigos, $purples, $pinks, $reds, $oranges, $yellows, $greens, $teals, $cyans, ("primary": $primary, "secondary": $secondary, "tertiary": $tertiary));
 
 // 5. Include remainder of required parts
 @import "../lib/bootstrap/scss/maps";
 @import "../lib/bootstrap/scss/mixins";
 @import "../lib/bootstrap/scss/root";
+@import "../lib/bootstrap/scss/utilities";
 @import "../lib/bootstrap/scss/buttons";
 @import "../lib/bootstrap/scss/helpers/colored-links";
+@import "utility";
+
+@import "components/toast";
+
+@import "pages/game";
 
 //$utilities: map-merge( $utilities, ( "color": map-merge( map-get($utilities, "color"), ( values: map-merge( map-get(map-get($utilities, "text-color"), "values"), ( $theme-colors ))))));
-
-//@each $color, $value in $all-colors
-//{
-//    .bg-#{$color}
-//    {
-//        background-color: $value;
-//    }
-
-//    a.link-#{$color}
-//    {
-//        color: $value;
-//        text-decoration: none;
-//    }
-
-//        a.link-#{$color}:focus,
-//        a.link-#{$color}:hover
-//        {
-//            color: color.adjust($value, $saturation: -15%, $lightness: +20%);
-//            text-shadow: 1px 1px 2px color.adjust($value, $saturation: +20%, $lightness: -15%);
-//        }
-
-//    .text-#{$color}
-//    {
-//        color: $value;
-//    }
-//}
-
-//@each $gradient, $value in $custom-gradients
-//{
-//    @each $size, $val in $border-sizes
-//    {
-//        @each $side in ("top", "bottom", "left", "right", "block", "inline")
-//        {
-//            .border-#{$side}-#{$gradient}-#{$size}
-//            {
-//                border-image-source: $value;
-//                border-image-slice: 2;
-//                border-#{$side}-width: $val;
-//                border-#{$side}-style: solid;
-//            }
-//        }
-//    }
-//}
-
 @import "../lib/bootstrap/scss/utilities/_api.scss";

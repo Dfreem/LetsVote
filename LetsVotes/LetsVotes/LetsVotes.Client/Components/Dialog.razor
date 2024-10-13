@@ -1,0 +1,23 @@
+﻿<dialog class="@Class" open="@Open">
+    <div class="d-flex w-100 align-items-center">
+        <div class="col-1 me-auto ms-2">
+            <button class="btn-close" @onclick="(() => Open = false)"></button>
+        </div>
+    </div>
+    @ChildContent
+</dialog>
+
+@code {
+
+    [Parameter]
+    public bool Open { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OpenChanged { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}
