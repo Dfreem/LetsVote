@@ -5,40 +5,25 @@
 @inject IToastService _toast
 
 <Toast Position="ToastPosition.Top | ToastPosition.Right"></Toast>
-<button @onclick='TestToast' class="btn btn-primary position-absolute top-50 left-50">Test</button>
 <div class="main-layout">
     <header class="bg-primary text-white p-4 text-center">
         <h1>Let's Vote Game</h1>
     </header>
-    <div class="page">
-        <main>
+    <main>
 
-            <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
-                <NavMenu />
-            </nav>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+            <NavMenu />
+        </nav>
 
-            <div class="page container-fluid">
-                <article class="content p-4">
-                    @Body
-                </article>
-            </div>
+        <div class="container-fluid">
+            <article class="content p-4">
+                @Body
+            </article>
+        </div>
 
-            <footer class="bg-dark text-white text-center p-2">
-                <p>&copy; 2024 Let's Vote Game</p>
-            </footer>
-        </main>
-    </div>
+    </main>
 
-    <div id="blazor-error-ui" class="bg-danger text-white">
-        An unhandled error has occurred.
-        <a href="" class="reload">Reload</a>
-        <a class="dismiss">🗙</a>
-    </div>
-</div>
-
-@code {
-    public void TestToast()
-    {
-        _toast.Success("Test Toast");
-    }
-}
+   </div>
+<footer class="bg-dark text-white text-center px-2 position-absolute w-100 bottom-0">
+    <p>&copy; 2024 Let's Vote Game</p>
+</footer>

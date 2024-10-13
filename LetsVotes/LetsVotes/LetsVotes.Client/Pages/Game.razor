@@ -6,6 +6,66 @@
 @inject NavigationManager _nav
 @inject IToastService _toast
 
+
+<!-- HTML Section -->
+<div class="container text-center my-4">
+    <label for="teamSelect">Choose your team:</label>
+    <select id="teamSelect" @onchange="OnTeamSelected" class="form-control">
+        <option value="A" selected="@((PlayerTeam == "A") ? "selected" : null)">Team A</option>
+        <option value="B" selected="@((PlayerTeam == "B") ? "selected" : null)">Team B</option>
+    </select>
+</div>
+
+<div class="container text-center" @onkeydown="HandleKeyPress" tabindex="0">
+    <h1>Voting Game</h1>
+
+    <div class="game-area my-4 position-relative">
+        <!-- Team A on the left -->
+        <div class="team team-a" style="left:@TeamAStyle;">
+            <img src="images/teamA.png" alt="Team A" class="team-image img-fluid" />
+            <p>Team A: @TeamAVotes</p>
+        </div>
+
+        <!-- Rope between Team A and Team B -->
+        <div class="rope" style="left:@RopeLeft; width:@RopeWidth;"></div>
+
+        <!-- Team B on the right -->
+        <div class="team team-b" style="left:@TeamBStyle;">
+            <img src="images/teamB.png" alt="Team B" class="team-image img-fluid" />
+            <p>Team B: @TeamBVotes</p>
+        </div>
+    </div>
+
+    <!-- Monster Area -->
+    <div class="monster-area">
+        @if (!IsStunned && !IsMonsterDefeated)
+        {
+            <div class="monster-image" style="left:@(GetMonsterPosition())%;">
+                <img src="@MonsterImage" alt="Monster" />
+            </div>
+        }
+        else if (IsStunned)
+        {
+            <p>You're stunned! Wait for a few seconds...</p>
+        }
+        else if (IsMonsterDefeated)
+        {
+            <p>@SuccessMessage</p>
+        }
+    </div>
+
+    <div class="button-area my-4">
+        <button class="btn btn-danger" @onclick='() => ButtonClicked("A")' disabled="@IsStunned">A</button>
+        <button class="btn btn-warning" @onclick='() => ButtonClicked("B")' disabled="@IsStunned">B</button>
+        <button class="btn btn-success" @onclick='() => ButtonClicked("C")' disabled="@IsStunned">C</button>
+    </div>
+
+    <div class="vote-counts my-4">
+        <p>Team A Votes: @TeamAVotes</p>
+        <p>Team B Votes: @TeamBVotes</p>
+    </div>
+</div>
+
 @code {
     // SignalR Hub connection
     private HubConnection? _gameHubConnection;
@@ -183,124 +243,3 @@
         }
     }
 }
-
-<!-- HTML Section -->
-<div class="container text-center my-4">
-    <label for="teamSelect">Choose your team:</label>
-    <select id="teamSelect" @onchange="OnTeamSelected" class="form-control">
-        <option value="A" selected="@((PlayerTeam == "A") ? "selected" : null)">Team A</option>
-        <option value="B" selected="@((PlayerTeam == "B") ? "selected" : null)">Team B</option>
-    </select>
-</div>
-
-<div class="container text-center" @onkeydown="HandleKeyPress" tabindex="0">
-    <h1>Voting Game</h1>
-
-    <div class="game-area my-4 position-relative">
-        <!-- Team A on the left -->
-        <div class="team team-a" style="left:@TeamAStyle;">
-            <img src="images/teamA.png" alt="Team A" class="team-image img-fluid" />
-            <p>Team A: @TeamAVotes</p>
-        </div>
-
-        <!-- Rope between Team A and Team B -->
-        <div class="rope" style="left:@RopeLeft; width:@RopeWidth;"></div>
-
-        <!-- Team B on the right -->
-        <div class="team team-b" style="left:@TeamBStyle;">
-            <img src="images/teamB.png" alt="Team B" class="team-image img-fluid" />
-            <p>Team B: @TeamBVotes</p>
-        </div>
-    </div>
-
-    <!-- Monster Area -->
-    <div class="monster-area">
-        @if (!IsStunned && !IsMonsterDefeated)
-        {
-            <div class="monster-image" style="left:@(GetMonsterPosition())%;">
-                <img src="@MonsterImage" alt="Monster" />
-            </div>
-        }
-        else if (IsStunned)
-        {
-            <p>You're stunned! Wait for a few seconds...</p>
-        }
-        else if (IsMonsterDefeated)
-        {
-            <p>@SuccessMessage</p>
-        }
-    </div>
-
-    <div class="button-area my-4">
-        <button class="btn btn-danger" @onclick='() => ButtonClicked("A")' disabled="@IsStunned">A</button>
-        <button class="btn btn-warning" @onclick='() => ButtonClicked("B")' disabled="@IsStunned">B</button>
-        <button class="btn btn-success" @onclick='() => ButtonClicked("C")' disabled="@IsStunned">C</button>
-    </div>
-
-    <div class="vote-counts my-4">
-        <p>Team A Votes: @TeamAVotes</p>
-        <p>Team B Votes: @TeamBVotes</p>
-    </div>
-</div>
-
-
-<!-- Styles -->
-<style>
-    .game-area {
-        position: relative;
-        width: 100%;
-        height: 200px;
-        margin-bottom: 20px; 
-    }
-
-    .team img {
-        width: 100px;
-        height: 150px;
-        object-fit: contain;
-    }
-
-    .team {
-        position: absolute;
-        top: 30px;
-        transition: left 0.5s ease-in-out;
-    }
-
-    .rope {
-        position: absolute;
-        top: 80px;
-        height: 50px;
-        background-image: url('images/rope.png');
-        background-repeat: repeat-x;
-        background-size: contain;
-    }
-
-    /* Monster Area Positioned Below the Game */
-    .monster-area {
-        position: relative;
-        width: 100%;
-        height: 150px; 
-        margin-top: 20px;
-    }
-
-    /* Position the Monster within the Monster Area */
-    .monster-image {
-        position: absolute;
-        top: 30px; 
-        transition: left 0.5s ease-in-out; 
-    }
-
-        .monster-image img {
-            max-width: 80px;
-            height: auto; 
-        }
-
-    .button-area {
-        display: flex;
-        justify-content: space-around;
-    }
-
-    .vote-counts {
-        font-size: 1.5rem;
-    }
-
-</style>
